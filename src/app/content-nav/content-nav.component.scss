@@ -1,0 +1,59 @@
+
+#nav-top{
+    display: grid;
+    grid-template-columns: 300px auto 180px 360px;
+    grid-template-rows: 60px;
+    grid-template-areas: "type . sort pagination";
+    padding-top:20px;
+    background-color: white;
+    box-shadow: 1px 2px 2px rgb(240, 240, 240);
+}
+#nav-type{
+    grid-area: type;
+    padding-left: 30px;
+    p{
+        margin:0;
+        span{
+            font-size: 17px;
+            font-weight: bold;
+        }
+    } 
+}
+#nav-sort{
+    grid-area: sort;
+    
+    font-size:14px;
+    justify-self: end;
+}
+#nav-pagination{
+    grid-area: pagination;
+}
+@media screen and (min-width: 480px) and (max-width: 840px){
+    #nav-top{
+        display: grid;
+        grid-template-columns: 300px auto;
+        grid-template-rows: 60px 60px;
+        grid-template-areas: 
+            "type  sort"
+            "pagination pagination";
+        padding-top:20px;
+    }
+    #nav-sort{
+        padding-right: 30px; 
+    }
+}
+@media screen and (max-width: 480px){
+    #nav-top{
+        display: grid;
+        grid-template-columns:  1fr;
+        grid-template-rows: 60px 60px 60px;
+        grid-template-areas: 
+            "type"
+            "sort"
+            "pagination";
+        padding-top:20px;
+    }
+    #nav-sort{
+        padding-right: 30px; 
+    }
+}

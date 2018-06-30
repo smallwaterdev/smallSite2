@@ -1,0 +1,27 @@
+<!--<div id="nav-top">
+    <div id="nav-type">
+        {{type}}
+    </div>
+    <div id="sort-dropdown">
+        
+    </div>
+    
+</div>-->
+<div id="nav-top">
+    <div *ngIf="type !== 'list'" id="nav-type">
+        <p><span>{{formatter.convertStarname(type_value)}}</span></p><p><span>Porn Videos</span></p>
+    </div>
+    <div id="nav-sort">
+        <mat-form-field>
+            <mat-select placeholder="Sorted by" (selectionChange)="sortedBy($event)" [(ngModel)]="selectedSort">
+                <mat-option *ngFor="let sort of support_sorts" [value]="sort.value">
+                    {{ sort.viewValue }}
+                </mat-option>
+            </mat-select>
+        </mat-form-field>
+    </div>
+ 
+    <mat-paginator id="nav-pagination" [hidePageSize]="true" [showFirstLastButtons]="true" [pageIndex]="pageNumber" [length]="total_num_items" [pageSize]="item_per_page" (page)="unpdatePage($event)">
+    </mat-paginator>
+        
+</div>

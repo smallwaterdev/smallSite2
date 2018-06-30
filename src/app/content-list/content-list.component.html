@@ -1,0 +1,26 @@
+<app-content-nav></app-content-nav>
+<div class="contet-list-container">
+    <div id="spinner">
+      <mat-spinner [ngStyle]="{'display':isShowSpinner?'block':'none'}" [diameter]="80" [color]="primary"></mat-spinner>
+    </div>
+    <div *ngFor="let content of contents; let i = index" [id]="'item-' + i" class="content-card">
+        <div class="content-card-img">
+            <a [href]="'/content/' + content._id">
+              <img [src]="content.imgSummaryUrl" onerror="this.onerror=null;this.src='/assets/images/photo_not_available.jpg';">
+            </a>
+            <span *ngIf="content.duration" class="duration">&nbsp;{{formatter.convertDuration(content.duration)}}&nbsp;</span>
+        </div>
+        <div class="content-card-info">
+            <div class="card-title">
+              <a [href]="'/content/' + content._id"><span class="text-concat">{{content.title}}</span></a>
+            </div>
+            <div *ngIf="content.starnames.length > 0" class="sub-info">
+              <span class="tag-value">{{content.starnames.length === 1? 'Pornstar': 'Pornstars'}}: {{formatter.convertStarnames(content.starnames)}}</span>
+            </div>
+            <div class="sub-info">
+              <span class="tag-value"><i class="fa fa-thumbs-up" aria-hidden="true"></i>&nbsp;&nbsp;{{formatter.convertRating(content.rating)}}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+              <span class="tag-value">{{formatter.convertView(content.view)}} views</span>
+            </div>
+        </div>
+    </div>
+</div>

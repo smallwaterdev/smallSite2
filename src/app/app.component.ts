@@ -7,4 +7,10 @@ import { Component } from '@angular/core';
 })
 export class AppComponent {
   title = 'app';
+
+  goTop(){
+    const element = document.querySelector('#top-div');
+    element.scrollIntoView();
+    //window.scrollTo(0,0);
+  }
 }
