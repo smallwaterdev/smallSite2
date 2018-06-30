@@ -2,14 +2,14 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { Content, SessionContent, SessionContents } from '../data-structures/Content';
-
+import {smallData_user_addr} from './config';
 @Injectable({
   providedIn: 'root'
 })
 
 export class ContentService {
   
-  smallData_user_addr:string = "192.168.1.100:3000";
+  smallData_user_addr:string = smallData_user_addr;
   constructor(private http: HttpClient) { 
     console.log('[ContentService] New Service Created');
   }
@@ -43,13 +43,13 @@ export class ContentService {
       /////// query now ///////////
       let queryUrl = '';
       if(typeof sort === 'string' && typeof skip === 'number' && typeof limit === 'number'){
-        queryUrl = `http://${this.smallData_user_addr}/quickquery/${sort}/${skip}/${limit}`;
+        queryUrl = `${this.smallData_user_addr}/quickquery/${sort}/${skip}/${limit}`;
       }else if(typeof sort === 'string'){
-        queryUrl = `http://${this.smallData_user_addr}/quickquery/${sort}`;
+        queryUrl = `${this.smallData_user_addr}/quickquery/${sort}`;
       }else if(typeof skip === 'number' && typeof limit === 'number'){
-        queryUrl = `http://${this.smallData_user_addr}/quickquery/${skip}/${limit}`;
+        queryUrl = `${this.smallData_user_addr}/quickquery/${skip}/${limit}`;
       }else{
-        queryUrl = `http://${this.smallData_user_addr}/quickquery`;
+        queryUrl = `${this.smallData_user_addr}/quickquery`;
       }
       this.http.get<Content[]>(queryUrl).subscribe(httpObserver);
     });
@@ -76,13 +76,13 @@ export class ContentService {
       /////// query now ///////////
       let queryUrl = '';
       if(field !== undefined && value !== undefined && sort !== undefined && skip !== undefined && limit !== undefined){
-        queryUrl = `http://${this.smallData_user_addr}/query/${field}/${value}/${sort}/${skip}/${limit}`;
+        queryUrl = `${this.smallData_user_addr}/query/${field}/${value}/${sort}/${skip}/${limit}`;
       }else if(field !== undefined && value !== undefined && sort !== undefined){
-        queryUrl = `http://${this.smallData_user_addr}/query/${field}/${value}/${sort}`;
+        queryUrl = `${this.smallData_user_addr}/query/${field}/${value}/${sort}`;
       }else if(field !== undefined && value !== undefined && skip !== undefined && limit !== undefined){
-        queryUrl = `http://${this.smallData_user_addr}/query/${field}/${value}/${skip}/${limit}`;
+        queryUrl = `${this.smallData_user_addr}/query/${field}/${value}/${skip}/${limit}`;
       }else{
-        queryUrl = `http://${this.smallData_user_addr}/query/${field}/${value}`;
+        queryUrl = `${this.smallData_user_addr}/query/${field}/${value}`;
       }
       this.http.get<Content[]>(queryUrl).subscribe(httpObserver);
     });
@@ -105,7 +105,7 @@ export class ContentService {
         }
       }
       /////// query now ///////////
-      let queryUrl = `http://${this.smallData_user_addr}/query/id/${id}`;
+      let queryUrl = `${this.smallData_user_addr}/query/id/${id}`;
       this.http.get<Content>(queryUrl).subscribe(httpObserver);
     });
     return queryByIdHttp;
@@ -130,9 +130,9 @@ export class ContentService {
       /////// query now ///////////
       let queryUrl = '';
       if(starnames.length === 0){
-        queryUrl = `http://${this.smallData_user_addr}/recommendlist/starname/~/${num}`;
+        queryUrl = `${this.smallData_user_addr}/recommendlist/starname/~/${num}`;
       }else{
-        queryUrl = `http://${this.smallData_user_addr}/recommendlist/starname/${starnames.join('~')}/${num}`;
+        queryUrl = `${this.smallData_user_addr}/recommendlist/starname/${starnames.join('~')}/${num}`;
       }
        
       this.http.get<Content[]>(queryUrl).subscribe(httpObserver);
