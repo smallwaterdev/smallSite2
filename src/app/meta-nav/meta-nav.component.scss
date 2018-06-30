@@ -1,0 +1,36 @@
+
+#meta-nav-top{
+    display: grid;
+    grid-template-columns: 150px auto  360px;
+    grid-template-rows: 60px;
+    grid-template-areas: "type . pagination";
+    padding-top:20px;
+    background-color: white;
+    box-shadow: 1px 2px 2px rgb(240, 240, 240);
+}
+#meta-nav-type{
+    grid-area: type;
+    padding: 10px 0px 0px 30px;
+    p{
+        margin:0;
+        span{
+            font-size: 17px;
+            font-weight: bold;
+        }
+    } 
+}
+#meta-nav-pagination{
+    grid-area: pagination;
+}
+@media screen and (max-width: 510px){
+    #meta-nav-top{
+        display: grid;
+        grid-template-columns: 360px auto;
+        grid-template-rows: 60px 60px;
+        grid-template-areas: 
+            "type"
+            "pagination";
+        padding-top:20px;
+    }
+    
+}

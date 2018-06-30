@@ -23,12 +23,12 @@ export class QueryMetaService {
         observer.next({sessionid: sessionId, meta: data.value});
        }else{
         observer.next({sessionid: sessionId, meta: null});
-        this.reportError('queryMetaOnFieldWithValue', data);
+        this.reportError(sessionId, data);
        }
       },
       error:err=>{
         observer.next({sessionid: sessionId, meta: null});
-        this.reportError('queryMetaOnFieldWithValue',err.message);
+        this.reportError(sessionId ,err.message);
       }
     };
     return httpObserver;
@@ -41,12 +41,12 @@ export class QueryMetaService {
         observer.next({sessionid: sessionId, metas: data.value});
        }else{
         observer.next({sessionid: sessionId, metas: null});
-        this.reportError('queryMetaOnFieldWithValue', data);
+        this.reportError(sessionId, data);
        }
       },
       error:err=>{
         observer.next({sessionid: sessionId, metas: null});
-        this.reportError('queryMetaOnFieldWithValue',err.message);
+        this.reportError(sessionId,err.message);
       }
     };
     return httpObserver;
@@ -62,6 +62,7 @@ export class QueryMetaService {
 
   queryMetaOnFieldWithValue(sessionId: string, field: string, value: string): Observable<SessionMeta>{
     const queryMeta = new Observable<SessionMeta>(observable=>{
+      console.log(field, value);
       const queryUrl = `${this.smallData_user_addr}/querymeta/${field}/${value}`;
       this.http.get<Object>(queryUrl).subscribe(this.__handlerSessionMetaGenerator(sessionId, observable));
       return {unsubscribe(){}};

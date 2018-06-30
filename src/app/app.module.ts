@@ -21,18 +21,26 @@ import { SideContentListComponent } from './side-content-list/side-content-list.
 import { ContentNavComponent } from './content-nav/content-nav.component';
 import { NotFoundPageComponent } from './not-found-page/not-found-page.component';
 import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
+import { MetaNavComponent } from './meta-nav/meta-nav.component';
 
-export function list_matcher(url: UrlSegment[]) {
-  const contentListField = ['list', 'category', 'pornstar', 'director', 'studio'];
-  if(url.length === 0 || (contentListField.indexOf(url[0].path) !== -1 && url.length >= 2)){
+export function meta_list_matcher(url: UrlSegment[]) {
+ 
+  if(
+    (url.length === 2 && url[0].path === 'meta') ||
+    (url.length === 3 && url[0].path === 'meta')){
     return {consumed: url};
   }else{
     return null;
   }
 }
-export function list_matcher_meta(url: UrlSegment[]){
-  const metaFields = ['category', 'pornstar', 'studio', 'director'];
-  if(url.length === 1 && metaFields.indexOf(url[0].path) !== -1){
+export function list_matcher(url: UrlSegment[]){
+  // xxx.xxx.xxx
+  // xxx.xxx.xxx/list/sort
+  // xxx.xxx.xxx/category/xxx[sort/page]
+  const metaFields = ['list', 'category', 'pornstar', 'studio', 'director'];
+  const sort = ['view', 'releaseDate', 'rating', 'duration', 'favorite'];
+  if(url.length === 0 || 
+     (url.length >= 2 && metaFields.indexOf(url[0].path) !== -1)){
     return {consumed:url};
   }else{
     return null;
@@ -40,7 +48,7 @@ export function list_matcher_meta(url: UrlSegment[]){
 }
 const routes: Route[]=[
   { path: "content/:id", component: ContentComponent},
-  { matcher: list_matcher_meta, component: MetaListComponent},
+  { matcher: meta_list_matcher, component: MetaListComponent},
   { matcher:list_matcher , component: ContentListComponent},
   { path: "**", component: NotFoundPageComponent}
 ];
@@ -53,7 +61,8 @@ const routes: Route[]=[
     ContentComponent,
     SideContentListComponent,
     ContentNavComponent,
-    NotFoundPageComponent
+    NotFoundPageComponent,
+    MetaNavComponent
     
   ],
   imports: [

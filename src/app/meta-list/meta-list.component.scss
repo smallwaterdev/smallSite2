@@ -1,33 +1,63 @@
+@mixin layout($col, $row, $gap) {
+    grid-template-columns: repeat($col, 180px);
+    grid-template-rows: repeat($row, 225px); 
+    grid-column-gap: $gap;
+    grid-row-gap: $gap;
+    .meta-item{
+        .profile-img{
+            width:180px;
+            height: 180px;
+         }
+    }
+}
 .meta-data{
     display: grid;
     padding: 20px 0px 20px 0px; 
-    grid-template-columns: repeat(6, 150px);
-    grid-template-rows: repeat(3, 110px);
+    @media screen and (min-width: 1200px){
+        @include layout(5,8, 10px);
+    }
+    @media screen and (min-width: 850px) and (max-width: 1200px){
+        @include layout(4,9, 10px);
+    }
+    @media screen and (min-width: 620px) and (max-width: 850px){
+        @include layout(3,12, 8px);
+    }
+    @media screen and (min-width: 410px) and (max-width: 620px){
+        @include layout(2,18, 8px);
+    }
+    @media screen and (max-width: 410px){
+        grid-template-columns: auto;
+        grid-template-rows: repeat(36, auto); 
+        grid-column-gap: 8px;
+        grid-row-gap: 8px;
+    }
     justify-content: center;
     justify-items: stretch;
     align-items: stretch;
     
-    grid-column-gap: 5px;
-    grid-row-gap: 5px;
+   
     .meta-item{
+        align-self: stretch;
+        justify-self: stretch;
         background-color:rgb(255, 255, 255);
         box-shadow: 1px 2px 2px rgb(240, 240, 240);
-        .profile-img{
-            width: 150px;
-            height: 80px;
-            img{
-            
-            }
-        }
+        
         .intro{
             padding-top:2px;
+            height: 45px;
             text-align: center;
             p{
-                font-size :13px;   
+
+                font-size :13px;
+                max-height: 26px;
                 color: rgb(90, 90, 90);
-                
+                .meta-link{
+                    color: rgb(90, 90, 90);
+                }
             }
         }
     }
-
+    .meta-item:hover{
+        box-shadow: 4px 4px 2px rgb(200, 200, 200);
+    }
 }

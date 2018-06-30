@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { PageEvent} from '@angular/material';
 import {Router , NavigationEnd} from '@angular/router';
 import {Subscription} from 'rxjs';
@@ -9,7 +9,7 @@ import {FormattingService} from '../services/formatting.service';
   templateUrl: './content-nav.component.html',
   styleUrls: ['./content-nav.component.scss']
 })
-export class ContentNavComponent implements OnInit {
+export class ContentNavComponent implements OnInit, OnDestroy {
   constructor(
     private router: Router,
     private queryMetaService: QueryMetaService,
@@ -89,7 +89,7 @@ export class ContentNavComponent implements OnInit {
     switch(segments.length){
       case 2:{
         this.queryMetaService.queryMetaOnFieldWithValue(url, "meta", "total").subscribe(data=>{
-          if(data.sessionid === this.router.url){
+          if(data.sessionid === this.router.url && data.meta){
             // its current url
             this.total_num_items = data.meta['counter'];
           }
@@ -151,7 +151,7 @@ export class ContentNavComponent implements OnInit {
             this.type_value = null;
           };break;
           default:{
-            this.type_value = segments[2];
+            this.type_value = decodeURIComponent(segments[2]);
             this.selectedSort = this.DEFAULT_SORT;
           };break;
         }
@@ -166,7 +166,7 @@ export class ContentNavComponent implements OnInit {
             this.pageNumber = parseInt(segments[3])-1;
           };break;
           default:{
-            this.type_value = segments[2];
+            this.type_value = decodeURIComponent(segments[2]);
             this.selectedSort = segments[3];
             this.pageNumber = 0;
           };break;
@@ -175,13 +175,16 @@ export class ContentNavComponent implements OnInit {
       case 5:{
         // /category/big-tits/sort/10, /starname/xxx/sort/10
         this.type = segments[1]; 
-        this.type_value = segments[2];
+        this.type_value = decodeURIComponent(segments[2]);
         this.selectedSort = segments[3];
         this.pageNumber = parseInt(segments[4])-1;
       };break;
       default:break;
     }
   }
- 
+  
+  ngOnDestroy(){
+    this.routerEvent.unsubscribe();
+  }
 
 }
