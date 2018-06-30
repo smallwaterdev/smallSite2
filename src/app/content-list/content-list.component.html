@@ -1,7 +1,7 @@
 <app-content-nav></app-content-nav>
 <div class="contet-list-container">
     <div id="spinner">
-      <mat-spinner [ngStyle]="{'display':isShowSpinner?'block':'none'}" [diameter]="80" [color]="primary"></mat-spinner>
+      <mat-spinner [ngStyle]="{'display':isShowSpinner?'block':'none'}" [diameter]="80" color="primary"></mat-spinner>
     </div>
     <div *ngFor="let content of contents; let i = index" [id]="'item-' + i" class="content-card">
         <div class="content-card-img">
