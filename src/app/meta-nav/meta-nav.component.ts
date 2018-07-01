@@ -35,6 +35,9 @@ export class MetaNavComponent implements OnInit, OnDestroy {
       return name;
     }
   }
+  UINameConverter(name: string){
+    return this.__valueConverter[name];
+  }
   //pagination
   total_num_items = 1000;
   item_per_page = 36;
@@ -59,7 +62,6 @@ export class MetaNavComponent implements OnInit, OnDestroy {
       return;
     }
     this.pageNumber = evt.pageIndex;
-    let url = [];
     if(this.pageNumber === 0){
       this.router.navigate(['meta',this.value]);
     }else{
@@ -88,11 +90,11 @@ export class MetaNavComponent implements OnInit, OnDestroy {
     switch(segments.length){
       case 3:{
         // /
-        this.value = this.__valueConverter[segments[2]];
+        this.value = segments[2];
         this.pageNumber = 0;
       };break;
       case 4:{
-        this.value = this.__valueConverter[segments[2]];
+        this.value = segments[2];
         this.pageNumber = parseInt(segments[3]) -1;
       }
       

@@ -1,6 +1,6 @@
 <div id="meta-nav-top">
   <div id="meta-nav-type">
-      <p><span>{{value}}</span></p>
+      <p><span>{{UINameConverter(value)}}</span></p>
   </div>
   <mat-paginator id="meta-nav-pagination" [hidePageSize]="true" [showFirstLastButtons]="true" [pageIndex]="pageNumber" [length]="total_num_items" [pageSize]="item_per_page" (page)="unpdatePage($event)">
   </mat-paginator>
