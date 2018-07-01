@@ -4,8 +4,10 @@
     grid-template-rows: 500px auto auto;
     grid-column-gap: 10px;
     grid-row-gap: 10px;
-    margin: 10px 20px 10px 20px;
+    margin: 10px 0px 10px 0px;
     justify-content: center ;
+    justify-items: stretch;
+    align-items: stretch;
     grid-template-areas: 
         "video recommended-list"
         "info  recommended-list"
@@ -24,25 +26,28 @@
             "info"
             "recommended-list"
     }
-    @if $video-width > 550{
-        
-    }
-    @else{
-        
-    }
+   
 }
 @mixin full-width($width-x){
     .content-container{
         display: grid;
-        grid-template-columns: 1fr;
+        grid-template-columns: 100%;
         grid-template-rows: 235px auto auto;
-        justify-items: stretch;
-        margin: 3px;
+        
+        //margin: 3px;
         align-items: stretch;
         grid-template-areas: 
             "video"
             "info"
             "recommended-list"
+    }
+    #main-player{
+        width: 100%;
+        justify-self: stretch;
+    }
+    #main-info{
+        width: 100%;
+        justify-self: stretch;
     }
 }
 @media screen and (min-width:840px) and (max-width:1250px){
@@ -57,13 +62,13 @@
 @media screen and (min-width:380px) and (max-width:420px){
     @include full-width(400px);
 }
-@media screen and (min-width:370px) and (max-width:380px){
+/*@media screen and (min-width:370px) and (max-width:380px){
     @include full-width(370px);
 }
 @media screen and (min-width:355px) and (max-width:370px){
     @include full-width(355px);
-}
-@media screen and (max-width:355px){
+}*/
+@media screen and (max-width:380px){
     @include full-width(320px);
 }
 
@@ -84,11 +89,13 @@
     grid-area: video;
     margin: 0;
     padding: 0;
-    justify-self: stretch;
-    align-self: stretch;
     box-shadow: 1px 2px 2px rgb(240,240,240);
 }
 #main-info{
+    h6{
+        width: 97%;
+        margin:auto;
+    }
     grid-area: info;
     background-color: rgb(255, 255, 255);
     box-shadow: 1px 2px 2px rgb(240, 240, 240);
@@ -126,8 +133,9 @@
         #other-info{
             padding: 0px 10px 0px 10px;
             font-size: 13px;
-            p{
+            p{  
                 margin: 0;
+                word-wrap: break-word;
                 a{
                     color: rgb(90, 90, 90);
                 }

@@ -28,7 +28,7 @@ export class ContentComponent implements OnInit {
       if(data){
         this.content = data.content;
         this.getFrameUrl();
-        this.contentService.queryRecommendList(null, this.content.starnames, 10).subscribe(list=>{
+        this.contentService.queryRecommendList(null, this.content._id, 10).subscribe(list=>{
           this.recommend_contents_list = list.contents;
         });
       }

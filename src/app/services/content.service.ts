@@ -111,12 +111,20 @@ export class ContentService {
     return queryByIdHttp;
   }
 
-  queryRecommendList(sessionid: string ,starnames: string[], num): Observable<SessionContents>{
+  queryRecommendList(sessionid: string ,id: string, num: number): Observable<SessionContents>{
     const recommendContent: Observable<SessionContents> = new Observable((observable)=>{
       const httpObserver = {
         next: data=>{
           if(data.success){
-            observable.next({sessionid : sessionid,contents: data.value});
+            let results = [];
+            let counter = 0;
+            data.value.forEach(ele=>{
+              if(ele._id !== id && counter < num){
+                counter++;
+                results.push(ele);
+              }
+            });
+            observable.next({sessionid : sessionid,contents: results});
           }else{
             observable.next({sessionid: sessionid, contents: null});
             this.reportError(data);
@@ -128,13 +136,9 @@ export class ContentService {
         }
       }
       /////// query now ///////////
-      let queryUrl = '';
-      if(starnames.length === 0){
-        queryUrl = `${this.smallData_user_addr}/recommendlist/starname/~/${num}`;
-      }else{
-        queryUrl = `${this.smallData_user_addr}/recommendlist/starname/${starnames.join('~')}/${num}`;
-      }
-       
+
+     
+      let queryUrl = `${this.smallData_user_addr}/recommendlist/${id}/${num}`;
       this.http.get<Content[]>(queryUrl).subscribe(httpObserver);
     });
     return recommendContent;
