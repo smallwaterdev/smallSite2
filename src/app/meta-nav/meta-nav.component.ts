@@ -20,6 +20,12 @@ export class MetaNavComponent implements OnInit, OnDestroy {
   ) {
     this.__metaNameConverter['category'] = 'genre';
     this.__metaNameConverter['pornstar'] = 'starname';
+
+    this.__valueConverter = {};
+    this.__valueConverter['category'] = "Categories";
+    this.__valueConverter['pornstar'] = "Pornstars";
+    this.__valueConverter['director'] = "Directors";
+    this.__valueConverter['studio'] = 'Studios';
    }
    __metaNameConvert(name: string){
     let result = this.__metaNameConverter[name];
@@ -35,6 +41,7 @@ export class MetaNavComponent implements OnInit, OnDestroy {
   pageNumber = 0; // from 0
   routerEvent: Subscription;
   value: string; //list, category, starname
+  __valueConverter: Object = {};
   ngOnInit() {
     this.routerEvent = this.router.events.subscribe((evt)=>{
       if(!(evt instanceof NavigationEnd)){
@@ -81,11 +88,11 @@ export class MetaNavComponent implements OnInit, OnDestroy {
     switch(segments.length){
       case 3:{
         // /
-        this.value = segments[2];
+        this.value = this.__valueConverter[segments[2]];
         this.pageNumber = 0;
       };break;
       case 4:{
-        this.value = segments[2];
+        this.value = this.__valueConverter[segments[2]];
         this.pageNumber = parseInt(segments[3]) -1;
       }
       

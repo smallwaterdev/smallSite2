@@ -61,3 +61,12 @@
         box-shadow: 4px 4px 2px rgb(200, 200, 200);
     }
 }
+
+#meta-spinner{
+    z-index: 10;
+    position: fixed;
+    left:50%;
+    margin-left:-40px;
+    top: 50%;
+    margin-top:-40px;
+}

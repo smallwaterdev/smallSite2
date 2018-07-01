@@ -14,6 +14,26 @@ export class MetaListComponent implements OnInit, OnDestroy {
   metaItems: Meta[];
   type: string;
   __metaNameConverter:Object = {};
+
+  isShowSpinner: boolean;
+  __spinner_waiter;
+  __cancel_spinner: boolean;
+  currentSession: string;
+  startSpinner(){
+    this.__cancel_spinner = false;
+    this.__spinner_waiter = setInterval(()=>{
+      if(!this.__cancel_spinner){
+        this.isShowSpinner = true;
+      }
+    }, 1000);
+
+  }
+  cancelSpinner(){
+    clearInterval(this.__spinner_waiter);
+    this.__cancel_spinner = true;
+    this.isShowSpinner = false;
+  }
+
   constructor(
     private queryMetaService: QueryMetaService,
     private router: Router,
@@ -43,6 +63,7 @@ export class MetaListComponent implements OnInit, OnDestroy {
   }
   
   url2MetaList(url: string){
+    this.startSpinner();
     let segments = url.split('/');
     this.type = segments[2];
     switch(segments.length){
@@ -53,6 +74,7 @@ export class MetaListComponent implements OnInit, OnDestroy {
           0, 36
         ).subscribe(data=>{
           if(data.sessionid === this.router.url){
+            this.cancelSpinner();
             this.metaItems = data.metas;
           }
         });
@@ -64,6 +86,7 @@ export class MetaListComponent implements OnInit, OnDestroy {
           (parseInt(segments[3])-1) * 36, 36
         ).subscribe(data=>{
           if(data.sessionid === this.router.url){
+            this.cancelSpinner();
             this.metaItems = data.metas;
           }
         });

@@ -3,20 +3,20 @@
     <mat-sidenav mode="push" #sidenav opened="false" position="end" style="width:40%;">
         <div fxLayout="column">
             <span>&nbsp;</span>
-            <a color="warning" mat-button routerLink="/meta/category">Category</a>
-            <a color="warning" mat-button routerLink="/meta/pornstar">Pornstar</a>
-            <a color="warning" mat-button routerLink="/meta/studio">Studio</a>
-            <a color="warning" mat-button routerLink="/meta/director">Director</a>
+            <a color="warning" mat-button routerLink="/meta/category">Categories</a>
+            <a color="warning" mat-button routerLink="/meta/pornstar">Pornstars</a>
+            <a color="warning" mat-button routerLink="/meta/studio">Studios</a>
+            <a color="warning" mat-button routerLink="/meta/director">Directors</a>
         </div>
     </mat-sidenav>
     <mat-sidenav-content>
         <div id="top-div"></div>
         <mat-toolbar color="primary">
-            <button color="warning" mat-button routerLink="/"><mat-icon>home</mat-icon> SmallSite</button>
-            <button color="warning" fxHide fxShow.gt-xs mat-button routerLink="/meta/category">Category</button>
-            <button color="warning" fxHide fxShow.gt-xs mat-button routerLink="/meta/pornstar">Pornstar</button>
-            <button color="warning" fxHide fxShow.gt-xs mat-button routerLink="/meta/studio">Studio</button>
-            <button color="warning" fxHide fxShow.gt-xs mat-button routerLink="/meta/director">Director</button>
+            <button color="warning" mat-button routerLink="/"><mat-icon>home</mat-icon> Javferry</button>
+            <button color="warning" fxHide fxShow.gt-xs mat-button routerLink="/meta/category">Categories</button>
+            <button color="warning" fxHide fxShow.gt-xs mat-button routerLink="/meta/pornstar">Pornstars</button>
+            <button color="warning" fxHide fxShow.gt-xs mat-button routerLink="/meta/studio">Studios</button>
+            <button color="warning" fxHide fxShow.gt-xs mat-button routerLink="/meta/director">Directors</button>
             <span class="toolbar-filler"></span>
             <button mat-button color="warning" fxShow fxHide.gt-xs (click)="sidenav.toggle()"><mat-icon>menu</mat-icon></button> 
         </mat-toolbar>

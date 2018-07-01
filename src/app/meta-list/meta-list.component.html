@@ -1,11 +1,14 @@
 <app-meta-nav></app-meta-nav>
 <div class="meta-data">
+    <div id="meta-spinner">
+        <mat-spinner [ngStyle]="{'display':isShowSpinner?'block':'none'}" [diameter]="80" color="primary"></mat-spinner>
+    </div>
     <div *ngFor="let metaItem of metaItems" class="meta-item">
         <div class="profile-img">
-            <a [href]="'/' + type + '/' + metaItem.name"><img width="100%" height="100%" [src]='metaItem.profile_url' onerror="this.onerror=null;this.src='/assets/images/photo_not_available.jpg';"/></a>
+            <a [routerLink]="'/' + type + '/' + metaItem.name"><img width="100%" height="100%" [src]='metaItem.profile_url' onerror="this.onerror=null;this.src='/assets/images/photo_not_available.jpg';"/></a>
         </div>
         <div class="intro">
-            <p>({{metaItem.counter}})&nbsp;&nbsp;<a [href]="'/' + type + '/' + metaItem.name"><span class="meta-link">{{formatter.convertStarname(metaItem.name)}}</span></a></p>
+            <p>({{metaItem.counter}})&nbsp;&nbsp;<a [routerLink]="'/' + type + '/' + metaItem.name"><span class="meta-link">{{formatter.convertStarname(metaItem.name)}}</span></a></p>
         </div>
     </div>
 </div>
