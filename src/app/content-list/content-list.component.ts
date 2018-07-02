@@ -5,6 +5,9 @@ import {Router, NavigationEnd} from '@angular/router';
 import {Subscription} from 'rxjs';
 import {FormattingService} from '../services/formatting.service';
 
+// google analytics gtag
+declare var gtag: Function;
+
 @Component({
   selector: 'app-content-list',
   templateUrl: './content-list.component.html',
@@ -52,10 +55,11 @@ export class ContentListComponent implements OnInit {
       if(!(evt instanceof NavigationEnd)){
         return;
       }
+      gtag('config', 'UA-121723672-1', {'page_path': evt.url});
       this.updateContentsByUrl(evt.url);
     });
+    gtag('config', 'UA-121723672-1', {'page_path': this.router.url});
     this.updateContentsByUrl(this.router.url);
-    
     
   }
   updateContentsByUrl(url:string){

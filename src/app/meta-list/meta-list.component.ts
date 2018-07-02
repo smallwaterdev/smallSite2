@@ -4,6 +4,10 @@ import { Router, NavigationEnd } from '@angular/router';
 import {Meta} from '../data-structures/Meta';
 import {FormattingService} from '../services/formatting.service';
 import {Subscription} from 'rxjs';
+
+// google analytics gtag
+declare var gtag: Function;
+
 @Component({
   selector: 'app-meta-list',
   templateUrl: './meta-list.component.html',
@@ -56,8 +60,10 @@ export class MetaListComponent implements OnInit, OnDestroy {
       if(!(evt instanceof NavigationEnd)){
         return;
       }
+      gtag('config', 'UA-121723672-1', {'page_path': evt.url});
       this.url2MetaList(evt.url);
     });
+    gtag('config', 'UA-121723672-1', {'page_path': this.router.url});
     this.url2MetaList(this.router.url);
     
   }
