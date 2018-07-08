@@ -6,7 +6,7 @@ import {Content} from '../data-structures/Content';
 export class WatchLaterService {
 
   constructor() { 
-    if(localStorage.getItem('ids') !== undefined){
+    if(localStorage.getItem('ids') !== null){
 
     }else{
       localStorage.setItem('ids', JSON.stringify([]));
@@ -14,7 +14,7 @@ export class WatchLaterService {
   }
   __getIds(){
     let ids = localStorage.getItem('ids');
-    if(ids === undefined){
+    if(ids === null){
       localStorage.setItem('ids', JSON.stringify([]));
       return [];
     }else{
