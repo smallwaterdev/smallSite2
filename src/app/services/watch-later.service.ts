@@ -12,8 +12,17 @@ export class WatchLaterService {
       localStorage.setItem('ids', JSON.stringify([]));
     }
   }
+  __getIds(){
+    let ids = localStorage.getItem('ids');
+    if(ids === undefined){
+      localStorage.setItem('ids', JSON.stringify([]));
+      return [];
+    }else{
+      return JSON.parse(ids);
+    }
+  }
   __addContentId(id): boolean{
-    let ids = JSON.parse(localStorage.getItem('ids'));
+    let ids = this.__getIds();
     if(ids.indexOf(id) !== -1){
       return false;
     }
@@ -22,7 +31,7 @@ export class WatchLaterService {
     return true;
   }
   __removeContentId(id: string){
-    let ids = JSON.parse(localStorage.getItem('ids'));
+    let ids = this.__getIds();
     let p = ids.indexOf(id);
     if(p !== -1){
       ids.splice(p, 1);
@@ -39,7 +48,7 @@ export class WatchLaterService {
   }
   getAll(): Content[]{
     let results :Content[] = [];
-    let ids = JSON.parse(localStorage.getItem('ids')).reverse();
+    let ids = this.__getIds().reverse();
     for(let i of ids){
       results.push(this.get(i));
     }
@@ -54,7 +63,7 @@ export class WatchLaterService {
     localStorage.setItem('ids', JSON.stringify([]));
   }
   hasContent(id: string){
-    let ids = JSON.parse(localStorage.getItem('ids'));
+    let ids = this.__getIds();
     return ids.indexOf(id) !== -1;
   }
 }
