@@ -1,19 +1,11 @@
-<app-content-nav></app-content-nav>
-
-<div class="contet-list-container" (click)='bodyClick()'>
-    <div id="spinner">
-      <mat-spinner [ngStyle]="{'display':isShowSpinner?'block':'none'}" [diameter]="80" color="primary"></mat-spinner>
-    </div>
-    <div *ngFor="let content of contents; let i = index" [id]="'item-' + (i + 1)" class="content-card">
+<div class="watchlater-list-container">
+    <div *ngFor="let content of contents; let i = index" class="content-card">
         <div class="content-card-img">
             <a [routerLink]="'/content/' + content._id">
-              <img [src]="content.imgSummaryUrl" onerror="this.onerror=null;this.src='/assets/images/photo_not_available.jpg';">
+              <img width="100%" height="100%" [src]="content.imgSummaryUrl" onerror="this.onerror=null;this.src='/assets/images/photo_not_available.jpg';">
             </a>
             <span *ngIf="content.duration" class="duration">&nbsp;{{formatter.convertDuration(content.duration)}}&nbsp;</span>
-            
-            <i *ngIf="!isAddedToWaterLater(content._id)" class="far fa-clock"  [ngStyle]="{'padding': icon_padding, 'opacity': icon_opacity}" (click)="addToWaterLater(content)"></i>
-            <i *ngIf="isAddedToWaterLater(content._id)"class="fas fa-check" [ngStyle]="{'padding':icon_padding, 'opacity': icon_opacity }"></i>
-            
+            <i class="far fa-times-circle" (click)="removeWatchLater(i, content._id)"></i>
         </div>
         <div class="content-card-info">
             <div class="card-title">
@@ -30,5 +22,3 @@
         </div>
     </div>
 </div>
-<app-function-panel (scrolling)="scrollingHandler($event)" [ngStyle]="{'display': isDisplayPanel}" style="position:fixed;bottom: 60px;right:20px; z-index: 10"></app-function-panel>
-<button mat-raised-button (click)="toggleFunctionPanel()" style="position:fixed;bottom: 20px;right:20px; z-index: 10"><i class="far fa-star" style="font-size:20px"></i></button>

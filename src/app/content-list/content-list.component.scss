@@ -86,6 +86,16 @@ $num-item-per-page: 60;
             display: inline;
             text-size-adjust: 100%;
         }
+        .fa-clock, .fa-check{
+            border-radius: 2px;
+            position: absolute;
+            font-size:18px;
+            top: 8px;
+            right: 8px;
+            opacity: .8;
+            color:rgb(238, 238, 238);
+            background-color: hsl(0, 0%, 6.7%);
+        }
     }
  
     .content-card-info{
@@ -126,4 +136,13 @@ $num-item-per-page: 60;
     margin-left:-40px;
     top: 50%;
     margin-top:-40px;
+}
+.uncensored{
+    font-weight: bold;
+    background-color: red;
+    border-radius: 2px;
+}
+button{
+    background-color: black;
+    color:white;
 }

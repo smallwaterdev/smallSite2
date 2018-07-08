@@ -4,6 +4,7 @@ import {Router , NavigationEnd} from '@angular/router';
 import {Subscription} from 'rxjs';
 import {QueryMetaService} from '../services/query-meta.service';
 import {FormattingService} from '../services/formatting.service';
+
 @Component({
   selector: 'app-content-nav',
   templateUrl: './content-nav.component.html',
@@ -46,14 +47,13 @@ export class ContentNavComponent implements OnInit, OnDestroy {
     }
     this.pageNumber = evt.pageIndex;
     let url = [];
-    if(this.pageNumber === 0){
-      this.router.navigate(['/list', this.selectedSort]);
-    }else{
-      this.router.navigate(['/list', this.selectedSort, this.pageNumber + 1]);
-    }
+    
     if(this.type === 'list'){
       url.push('list');
       url.push(this.selectedSort);
+    }else if(this.type === 'search'){
+      url.push('search');
+      url.push(this.type_value);
     }else{
       url.push(this.type);
       url.push(this.type_value);
@@ -109,6 +109,9 @@ export class ContentNavComponent implements OnInit, OnDestroy {
               }
             });
           };break;
+          case "search":{
+            this.total_num_items = 100;
+          };break;
           default:{
             const name_converter = {};
             name_converter['category'] = 'genre';
@@ -142,27 +145,42 @@ export class ContentNavComponent implements OnInit, OnDestroy {
         this.pageNumber = 0;
       };break;
       case 3:{
-        // /list/view, /category/big-tits, /starname/xxx
-        this.pageNumber = 0;
-        this.type = segments[1];
-        switch(segments[1]){
-          case "list":{
-            this.selectedSort = segments[2];
-            this.type_value = null;
-          };break;
-          default:{
-            this.type_value = decodeURIComponent(segments[2]);
-            this.selectedSort = this.DEFAULT_SORT;
-          };break;
+       
+        if(segments[1] === 'search'){
+           // /search/title
+          this.type = 'search';
+          this.type_value = decodeURIComponent(segments[2]);
+          this.selectedSort = this.DEFAULT_SORT;
+          this.pageNumber = 0;
+
+        }else{
+           // /list/view, /category/big-tits, /starname/xxx
+          this.pageNumber = 0;
+          this.type = segments[1];
+          switch(segments[1]){
+            case "list":{
+              this.selectedSort = segments[2];
+              this.type_value = null;
+            };break;
+            default:{
+              this.type_value = decodeURIComponent(segments[2]);
+              this.selectedSort = this.DEFAULT_SORT;
+            };break;
+          }
         }
       };break;
       case 4:{
-        // /list/view/10, /category/big-tits/sort, /starname/xxx/sort
+        // /list/view/10, /search/title/10, /category/big-tits/sort, /starname/xxx/sort
         this.type = segments[1];
         switch(segments[1]){
           case "list":{
             this.selectedSort = segments[2];
             this.type_value = null;
+            this.pageNumber = parseInt(segments[3])-1;
+          };break;
+          case "search":{
+           // this.selectedSort = segments[2];
+            this.type_value = decodeURIComponent(segments[2]);
             this.pageNumber = parseInt(segments[3])-1;
           };break;
           default:{

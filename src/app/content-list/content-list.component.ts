@@ -1,10 +1,14 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit , ViewChild} from '@angular/core';
 import { Content, SessionContent , SessionContents} from '../data-structures/Content'; 
 import {ContentService} from '../services/content.service';
 import {Router, NavigationEnd} from '@angular/router';
 import {Subscription} from 'rxjs';
 import {FormattingService} from '../services/formatting.service';
-
+import {trigger, state, style, animate, transition} from '@angular/animations';
+import { EventBridgeService } from '../services/event-bridge.service';
+import { ScrollingService } from '../services/scrolling.service';
+import { WatchLaterService } from '../services/watch-later.service';
+import {FunctionPanelComponent} from '../function-panel/function-panel.component';
 // google analytics gtag
 declare var gtag: Function;
 
@@ -15,6 +19,9 @@ declare var gtag: Function;
 })
 export class ContentListComponent implements OnInit {
 
+  @ViewChild(FunctionPanelComponent)
+  private functionPanelComponent: FunctionPanelComponent;
+
   contents: Content[] = []; 
   item_per_page = 20;
   routerEvent: Subscription;
@@ -22,6 +29,9 @@ export class ContentListComponent implements OnInit {
   __spinner_waiter;
   __cancel_spinner: boolean;
   currentSession: string;
+
+  icon_padding:string = '3px';
+  icon_opacity = '0.8';
   startSpinner(){
     this.__cancel_spinner = false;
     this.__spinner_waiter = setInterval(()=>{
@@ -40,7 +50,10 @@ export class ContentListComponent implements OnInit {
   constructor(
     private contentService: ContentService,
     private router: Router,
-    private formatter: FormattingService
+    private formatter: FormattingService,
+   // private eventBridge: EventBridgeService,
+    private scrolling: ScrollingService,
+    private watchLater: WatchLaterService
   ) { }
   content_title_length_limit: number = 70;
   subtitle(title){
@@ -49,26 +62,40 @@ export class ContentListComponent implements OnInit {
     }
     return title;
   }
+  scroll(){
+   // this.scrolling.scrollingToBottom(null, null);
+  }
+
+  reportGoogleAnalytics(url: string){
+    gtag('config', 'UA-121723672-1', {'page_path': url});
+  }
   ngOnInit() {
     // listener and initial update
     this.routerEvent = this.router.events.subscribe((evt)=>{
       if(!(evt instanceof NavigationEnd)){
         return;
       }
-      gtag('config', 'UA-121723672-1', {'page_path': evt.url});
+      this.scrolling.goTop();
+      this.reportGoogleAnalytics(evt.url);
       this.updateContentsByUrl(evt.url);
     });
-    gtag('config', 'UA-121723672-1', {'page_path': this.router.url});
+    this.scrolling.goTop();
+    this.reportGoogleAnalytics(this.router.url);
     this.updateContentsByUrl(this.router.url);
-    
   }
+  
   updateContentsByUrl(url:string){
     this.startSpinner();
     this.contents=[];
     this.currentSession = url;
-    if(url.split('/')[1] !== 'list' && url.split('/')[1] !== ""){
-      this.__updateContentsByUrl(this.currentSession, url.split('/')[1], this.router.url);
+    let urls = url.split('/');
+    if(urls[1] !== 'list' && urls[1] !== "" && urls[1] !== "search"){
+      // category, starname, ...
+      this.__updateContentsByUrl(this.currentSession, urls[1], this.router.url);
+    }else if(urls[1] === 'search'){
+      this.__searchByTitle(this.currentSession, this.router.url);
     }else{
+      // list/sort/ ... or, initial
       this.__listUpdateContentsByUrl(this.currentSession, this.router.url); 
     }
   }
@@ -76,6 +103,22 @@ export class ContentListComponent implements OnInit {
     if(data && (data.sessionid === this.currentSession)){
       this.cancelSpinner();
       this.contents = data.contents;
+      this.functionPanelComponent.contentListFinishLoad();
+    }
+  }
+  __searchByTitle(sessionid: string, url:string){
+    // search 
+    let urls = url.split('/');
+    if(urls.length === 3){
+      // /search/title
+      this.contentService.searchByTitle(this.currentSession, decodeURIComponent(urls[2]), 0, this.item_per_page).subscribe(
+        data=>{this.__sessionContentHandler(data);}
+      );
+    }else{
+      // /search/title/pageno
+      this.contentService.searchByTitle(this.currentSession, decodeURIComponent(urls[2]), this.item_per_page * (parseInt(urls[3]) - 1), this.item_per_page).subscribe(
+        data=>{this.__sessionContentHandler(data);}
+      );
     }
   }
   __updateContentsByUrl(sessionid: string, field: string, url: string){
@@ -118,4 +161,34 @@ export class ContentListComponent implements OnInit {
   ngOnDestroy(){
     this.routerEvent.unsubscribe();
   }
+  isDisplayPanel: string = "none";
+  toggleFunctionPanel(){
+    if(this.isDisplayPanel === 'none'){
+      this.isDisplayPanel = 'block';
+    }else if(this.isDisplayPanel === 'block'){
+      this.isDisplayPanel = 'none';
+    }
+  }
+  bodyClick(){
+    this.isDisplayPanel = 'none';
+  }
+
+  // watch later
+  isAddedToWaterLater(id: string){
+    return this.watchLater.hasContent(id)
+  }
+  addToWaterLater(content: Content){
+    this.watchLater.store(content);
+  }
+
+  scrollingHandler(isScrolling){
+    if(isScrolling){
+      this.icon_padding = '3px 3px 80px 130px';
+      this.icon_opacity = '0.4';
+    }else{
+      this.icon_padding = '3px';
+      this.icon_opacity = '0.8';
+    }
+  }
+
 }

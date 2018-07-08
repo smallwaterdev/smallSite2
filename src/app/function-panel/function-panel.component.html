@@ -1,0 +1,18 @@
+<div id="function-panel">
+  <div id="function-panel-core">
+    <div class="auto-view">
+        <label for="volume">Auto View</label>
+        <input type="range"  min="0" max="2.5" value="0" step="0.1" #autoScrollRange (change)="autoScroll(autoScrollRange.value)"/>
+    </div>
+    <mat-divider></mat-divider>
+    <div class="auto-view">
+        <label for="auto-next">Auto Next</label>
+        <mat-slide-toggle [checked]="isAutoNext" (change)="isAutoNext = $event.checked"></mat-slide-toggle>
+    </div>
+    <mat-divider></mat-divider>
+    <div class="single-item">
+      <button (click)="clearWatchLaterList()">Clear watch later list</button>
+    </div>
+    <mat-divider></mat-divider>
+  </div>
+</div>

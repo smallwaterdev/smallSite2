@@ -4,6 +4,7 @@ import { Observable ,of} from 'rxjs';
 import { Content, SessionContent, SessionContents } from '../data-structures/Content';
 import {smallData_user_addr} from './config';
 import {LocalCacheService} from './local-cache.service';
+import { WatchLaterService } from './watch-later.service';
 @Injectable({
   providedIn: 'root'
 })
@@ -14,7 +15,8 @@ export class ContentService {
   
   constructor(
     private http: HttpClient,
-    private localCache: LocalCacheService
+    private localCache: LocalCacheService,
+    private watchLater: WatchLaterService
   ) { 
     console.log('[ContentService] New Service Created');
   }
@@ -107,6 +109,10 @@ export class ContentService {
     let content = this.localCache.getContentById(id);
     if(content){
       return of({sessionid: sessionid, content:content});
+    }
+    let content_ = this.watchLater.get(id);
+    if(content_){
+      return of({sessionid: sessionid, content:content_});
     }else{
       const queryByIdHttp: Observable<SessionContent> = new Observable((observable)=>{
         const httpObserver = {
@@ -139,6 +145,16 @@ export class ContentService {
       this.http.get<Content[]>(queryUrl).subscribe(httpObserver);
     });
     return recommendContent;
+  }
+
+  searchByTitle(sessionid: string, title:string, from: number, limit: number): Observable<SessionContents>{
+    const searchContents: Observable<SessionContents> = new Observable((observable)=>{
+      const httpObserver = this.__generateSessionContentsHandler(sessionid, false, observable);
+      /////// query now ///////////
+      let queryUrl = `${this.smallData_user_addr}/search/title`;
+      this.http.post<Content[]>(queryUrl, {title: title, from: from, limit: limit}).subscribe(httpObserver);
+    });
+    return searchContents;
   }
 }
 

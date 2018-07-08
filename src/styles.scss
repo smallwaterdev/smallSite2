@@ -5,3 +5,7 @@ body {
     margin: 0;
     font-family: Roboto, sans-serif;
 }
+button:focus {
+    outline: none;
+    border: 0;
+}

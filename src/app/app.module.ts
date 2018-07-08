@@ -22,7 +22,11 @@ import { ContentNavComponent } from './content-nav/content-nav.component';
 import { NotFoundPageComponent } from './not-found-page/not-found-page.component';
 import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
 import { MetaNavComponent } from './meta-nav/meta-nav.component';
-
+import {MatInputModule} from '@angular/material/input';
+import { FunctionPanelComponent } from './function-panel/function-panel.component';
+import {MatSliderModule} from '@angular/material/slider';
+import {MatSlideToggleModule} from '@angular/material/slide-toggle';
+import { WatchLaterListComponent } from './watch-later-list/watch-later-list.component';
 export function meta_list_matcher(url: UrlSegment[]) {
  
   if(
@@ -35,9 +39,10 @@ export function meta_list_matcher(url: UrlSegment[]) {
 }
 export function list_matcher(url: UrlSegment[]){
   // xxx.xxx.xxx
+  // xxx.xxx.xxx/search/xxxx
   // xxx.xxx.xxx/list/sort
   // xxx.xxx.xxx/category/xxx[sort/page]
-  const metaFields = ['list', 'category', 'pornstar', 'studio', 'director'];
+  const metaFields = ['list', 'search', 'category', 'pornstar', 'studio', 'director'];
   const sort = ['view', 'releaseDate', 'rating', 'duration', 'favorite'];
   if(url.length === 0 || 
      (url.length >= 2 && metaFields.indexOf(url[0].path) !== -1)){
@@ -46,8 +51,17 @@ export function list_matcher(url: UrlSegment[]){
     return null;
   }
 }
+export function watch_later_matcher(url: UrlSegment[]){
+  // xxx.xxx.xxx/watchlater
+  if(url.length > 0 && url[0].path === 'watchlater'){
+    return {consumed:url};
+  }else{
+    return null;
+  }
+}
 const routes: Route[]=[
   { path: "content/:id", component: ContentComponent},
+  { matcher: watch_later_matcher, component: WatchLaterListComponent},
   { matcher: meta_list_matcher, component: MetaListComponent},
   { matcher:list_matcher , component: ContentListComponent},
   { path: "**", component: NotFoundPageComponent}
@@ -62,7 +76,9 @@ const routes: Route[]=[
     SideContentListComponent,
     ContentNavComponent,
     NotFoundPageComponent,
-    MetaNavComponent
+    MetaNavComponent,
+    FunctionPanelComponent,
+    WatchLaterListComponent
     
   ],
   imports: [
@@ -80,7 +96,10 @@ const routes: Route[]=[
     MatSelectModule,
     HttpClientModule,
     FormsModule,
-    MatProgressSpinnerModule
+    MatProgressSpinnerModule,
+    MatInputModule,
+    MatSliderModule,
+    MatSlideToggleModule
   ],
   providers: [],
   bootstrap: [AppComponent]

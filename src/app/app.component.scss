@@ -3,11 +3,47 @@
     flex: 1 1 auto
 }
 
-button:focus {
-    outline: none;
-    border: 0;
-}
-#top-div{
+
+#top-nav{
     margin: 0;
     padding: 0;
+    background-color: black;
+    height: 50px;
+    button{
+        color:white;
+    }
+    display: flex;
+    flex-direction: row;
+    flex-wrap:wrap;
+    align-items: center;
+}
+#hidden-block{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    button{
+        background-color: white;
+        color:black;
+    }
+   .search-input{
+       border-style: solid;
+       border-width: 0 0 1px 0;
+       width: 80%;
+       align-self: center;
+   }
+}
+.search-input{
+    margin-right: 20px;
+    input{
+        -webkit-border-radius: 10px;
+        -moz-border-radius: 10px;
+        border-radius: 10px;
+        outline: none;
+        border:0;
+        font-size: 15px;
+    }
+    input:focus{
+        outline: none;
+        border:0;
+    }
 }

@@ -16,7 +16,8 @@
             </div>
             <div class="sub-info">
               <span class="tag-value"><i class="fa fa-thumbs-up" aria-hidden="true"></i>&nbsp;&nbsp;{{formatter.convertRating(content.rating)}}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
-              <span class="tag-value">{{formatter.convertView(content.view)}} views</span>
+              <span class="tag-value">{{formatter.convertView(content.view)}} views&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+              <span *ngIf="content.genres.indexOf('uncensored') !== -1" class="tag-value uncensored">&nbsp;&nbsp;U&nbsp;&nbsp;</span>
             </div>
         </div>
       </div>
