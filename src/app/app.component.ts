@@ -34,7 +34,7 @@ export class AppComponent implements OnInit {
   }
   
 
-  search(location: string){
+  search(){
     this.router.navigate(['/search', this.searchValue]);
   }
 }
