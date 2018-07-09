@@ -38,10 +38,10 @@
     <button fxHide fxShow.gt-sm mat-button routerLink="/meta/pornstar">Pornstars</button>
     <button fxHide fxShow.gt-sm mat-button routerLink="/meta/studio">Studios</button>
     <button fxHide fxShow.gt-sm mat-button routerLink="/meta/director">Directors</button> 
-    <button fxHide fxShow.gt-sm mat-button routerLink="/watchlater">Watch Later</button>       
+    <button fxHide fxShow.gt-sm mat-button routerLink="/watchlater">Watch later</button>       
     <span class="toolbar-filler"></span>
     <div class="search-input" fxHide fxShow.gt-xs>
-        <input type="text" size="30" placeholder="Search" [(ngModel)]="searchValue" (keyup.enter)="search()">
+        <input type="text" size="30" placeholder=" Search" [(ngModel)]="searchValue" (keyup.enter)="search()">
     </div>
     <button mat-button fxShow fxHide.gt-sm (click)="sidenavToggle()"><mat-icon>menu</mat-icon></button> 
 </div>
@@ -50,9 +50,9 @@
     <button mat-button routerLink="/meta/pornstar">Pornstars</button>
     <button mat-button routerLink="/meta/studio">Studios</button>
     <button mat-button routerLink="/meta/director">Directors</button>
-    <button mat-button routerLink="/watchlater">Watch Later</button>
+    <button mat-button routerLink="/watchlater">Watch later</button>
     <div class="search-input" fxShow fxHide.gt-xs>
-        <input type="text" size="30" placeholder="Search" [(ngModel)]="searchValue" (keyup.enter)="search()">
+        <input type="text" size="60%" placeholder=" Search" [(ngModel)]="searchValue" (keyup.enter)="search()">
     </div>
 </div>
 <router-outlet></router-outlet>

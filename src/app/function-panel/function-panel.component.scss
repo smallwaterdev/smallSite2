@@ -3,18 +3,19 @@ button:focus {
     border: 0;
 }
 #function-panel{
-    
+    opacity: .97;
     border-radius: 2px;
     border-style: solid;
     border-width: 1px;
     background-color:rgb(255,255,255);
     box-shadow: 1px 2px 2px rgb(220,220,220);
     width: 250px;
-    height: 300px;
+    height: 150px;
     #function-panel-core{
         margin: 10px;
         display: grid;
-        
+        font-family: sans-serif;
+        font-weight: bold;
         .auto-view{
             margin: 5px 0 5px 0;
             label{
@@ -34,7 +35,7 @@ button:focus {
             margin:auto;
             button{
                 border:0px;
-                margin: 2px 0 2px 0;
+                margin: 3px 0 3px 0;
                 font-weight: normal;
                 color:red;
                 background-color:rgb(255,255,255);

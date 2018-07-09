@@ -1,13 +1,13 @@
 <div id="function-panel">
   <div id="function-panel-core">
     <div class="auto-view">
-        <label for="volume">Auto View</label>
+        <label for="volume">Scrolling</label>
         <input type="range"  min="0" max="2.5" value="0" step="0.1" #autoScrollRange [(ngModel)]="speed" (change)="autoScroll()"/>
     </div>
     <mat-divider></mat-divider>
     <div class="auto-view">
         <label for="auto-next">Auto Next</label>
-        <mat-slide-toggle [checked]="isAutoNext" (change)="isAutoNext = $event.checked"></mat-slide-toggle>
+        <mat-slide-toggle color="background" [checked]="isAutoNext" (change)="isAutoNext = $event.checked"></mat-slide-toggle>
     </div>
     <mat-divider></mat-divider>
     <div class="single-item">
