@@ -4,6 +4,7 @@ import { Router, NavigationEnd } from '@angular/router';
 import {Meta} from '../data-structures/Meta';
 import {FormattingService} from '../services/formatting.service';
 import {Subscription} from 'rxjs';
+import { ScrollingService } from '../services/scrolling.service';
 
 // google analytics gtag
 declare var gtag: Function;
@@ -41,7 +42,8 @@ export class MetaListComponent implements OnInit, OnDestroy {
   constructor(
     private queryMetaService: QueryMetaService,
     private router: Router,
-    public formatter: FormattingService
+    public formatter: FormattingService,
+    private scrolling: ScrollingService
   ) {
     this.__metaNameConverter['category'] = 'genre';
     this.__metaNameConverter['pornstar'] = 'starname';
@@ -61,9 +63,13 @@ export class MetaListComponent implements OnInit, OnDestroy {
         return;
       }
       gtag('config', 'UA-121723672-1', {'page_path': evt.url});
+      
+      this.scrolling.goTop();
       this.url2MetaList(evt.url);
     });
     gtag('config', 'UA-121723672-1', {'page_path': this.router.url});
+    
+    this.scrolling.goTop();
     this.url2MetaList(this.router.url);
     
   }

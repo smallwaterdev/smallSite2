@@ -1,5 +1,5 @@
 import { Component , OnInit} from '@angular/core';
-import {Router} from '@angular/router';
+import {Router, NavigationEnd} from '@angular/router';
 //import { trigger, state, style, animate, transition} from '@angular/animations';
 import {MediaChange, ObservableMedia} from '@angular/flex-layout';
 import { ScrollingService } from './services/scrolling.service';
@@ -23,6 +23,12 @@ export class AppComponent implements OnInit {
       if(['sm', 'xs'].indexOf(change.mqAlias) === -1){
         this.sideNavStyle = 'none';
       }
+    });
+    this.router.events.subscribe((evt)=>{
+      if(!(evt instanceof NavigationEnd)){
+        return;
+      }
+      this.sideNavStyle = 'none';
     });
   }
   sidenavToggle(){

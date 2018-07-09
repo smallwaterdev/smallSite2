@@ -2,7 +2,7 @@
   <div id="function-panel-core">
     <div class="auto-view">
         <label for="volume">Auto View</label>
-        <input type="range"  min="0" max="2.5" value="0" step="0.1" #autoScrollRange (change)="autoScroll(autoScrollRange.value)"/>
+        <input type="range"  min="0" max="2.5" value="0" step="0.1" #autoScrollRange [(ngModel)]="speed" (change)="autoScroll()"/>
     </div>
     <mat-divider></mat-divider>
     <div class="auto-view">

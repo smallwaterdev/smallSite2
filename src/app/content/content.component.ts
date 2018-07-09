@@ -36,10 +36,12 @@ export class ContentComponent implements OnInit, OnDestroy {
         return;
       }
       gtag('config', 'UA-121723672-1', {'page_path': evt.url});
+     
       this.scrolling.goTop();
       this.url2Content(evt.url);
     });
     gtag('config', 'UA-121723672-1', {'page_path': this.router.url});
+    
     this.scrolling.goTop();
     this.url2Content(this.router.url);
   }
