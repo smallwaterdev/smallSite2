@@ -2,13 +2,13 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import {SessionMeta, SessionMetas, Meta} from '../data-structures/Meta';
-import {smallData_user_addr} from './config';
+import {smallData_user_addr, urlPrefix} from './config';
 @Injectable({
   providedIn: 'root'
 })
 export class QueryMetaService {
 
-  smallData_user_addr:string = smallData_user_addr;
+  smallData_user_addr:string = smallData_user_addr + urlPrefix;
   constructor(private http: HttpClient) { 
     console.log('[MetaService] New Service Created');
   }

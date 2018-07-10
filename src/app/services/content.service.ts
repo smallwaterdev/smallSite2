@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable ,of} from 'rxjs';
 import { Content, SessionContent, SessionContents } from '../data-structures/Content';
-import {smallData_user_addr} from './config';
+import {smallData_user_addr, urlPrefix} from './config';
 import {LocalCacheService} from './local-cache.service';
 import { WatchLaterService } from './watch-later.service';
 @Injectable({
@@ -11,7 +11,7 @@ import { WatchLaterService } from './watch-later.service';
 
 export class ContentService {
   
-  smallData_user_addr:string = smallData_user_addr;
+  smallData_user_addr:string = smallData_user_addr + urlPrefix;
   
   constructor(
     private http: HttpClient,
