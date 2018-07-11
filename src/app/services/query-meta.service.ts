@@ -59,7 +59,7 @@ export class QueryMetaService {
     });
     return queryMeta;
   }
-
+  
   queryMetaOnFieldWithValue(sessionId: string, field: string, value: string): Observable<SessionMeta>{
     const queryMeta = new Observable<SessionMeta>(observable=>{
       console.log(field, value);
@@ -68,6 +68,5 @@ export class QueryMetaService {
       return {unsubscribe(){}};
     });
     return queryMeta;
-
   }
 }
