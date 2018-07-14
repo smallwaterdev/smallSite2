@@ -18,6 +18,7 @@ export class ContentNavComponent implements OnInit, OnDestroy {
   ) { }
 
   selectedSort: string;
+  disable_sort: boolean;
   //sort
   DEFAULT_SORT: string = "releaseDate";
   support_sorts = [
@@ -135,6 +136,7 @@ export class ContentNavComponent implements OnInit, OnDestroy {
   }
 
   url2UI(url: string){
+    this.disable_sort = false;
     let segments = url.split('/');
     switch(segments.length){
       case 2:{
@@ -152,7 +154,7 @@ export class ContentNavComponent implements OnInit, OnDestroy {
           this.type_value = decodeURIComponent(segments[2]);
           this.selectedSort = this.DEFAULT_SORT;
           this.pageNumber = 0;
-
+          this.disable_sort = true;
         }else{
            // /list/view, /category/big-tits, /starname/xxx
           this.pageNumber = 0;
@@ -182,6 +184,7 @@ export class ContentNavComponent implements OnInit, OnDestroy {
            // this.selectedSort = segments[2];
             this.type_value = decodeURIComponent(segments[2]);
             this.pageNumber = parseInt(segments[3])-1;
+            this.disable_sort = true;
           };break;
           default:{
             this.type_value = decodeURIComponent(segments[2]);

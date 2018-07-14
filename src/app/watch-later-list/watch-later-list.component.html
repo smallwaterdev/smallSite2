@@ -1,8 +1,15 @@
 <div class="watchlater-list-container">
-    <div *ngFor="let content of contents; let i = index" class="content-card">
-        <div class="content-card-img">
+    <div *ngFor="let content of contents; let i = index" [id]="'waterlater-item-' + (i + 1)" class="content-card">
+        <div *ngIf="isMoblie" class="content-card-img"><!-- [ngStyle]="{'height':content_card_img_height}">-->
+            
+            <img *ngIf="playing_id !== content._id" (click)="playVideo(content._id, content.videoUrl)" width="100%" height="100%" [src]="content.imgSummaryUrl" onerror="this.onerror=null;this.src='/assets/images/photo_not_available.jpg';">
+            <iframe *ngIf="playing_id === content._id" class="frame-player" width="100%" [height]="iframe_height" allowfullscreen [src]="safeUrl"  frameborder="0"></iframe>
+            <span *ngIf="content.duration" class="duration">&nbsp;{{formatter.convertDuration(content.duration)}}&nbsp;</span>
+            <i class="far fa-times-circle" (click)="removeWatchLater(i, content._id)"></i>
+        </div>
+        <div *ngIf="!isMoblie" class="content-card-img"><!-- [ngStyle]="{'height':content_card_img_height}">-->
             <a [routerLink]="'/content/' + content._id">
-              <img width="100%" height="100%" [src]="content.imgSummaryUrl" onerror="this.onerror=null;this.src='/assets/images/photo_not_available.jpg';">
+                <img width="100%" height="100%" [src]="content.imgSummaryUrl" onerror="this.onerror=null;this.src='/assets/images/photo_not_available.jpg';">
             </a>
             <span *ngIf="content.duration" class="duration">&nbsp;{{formatter.convertDuration(content.duration)}}&nbsp;</span>
             <i class="far fa-times-circle" (click)="removeWatchLater(i, content._id)"></i>

@@ -6,6 +6,7 @@ import {ActivatedRoute,Router, NavigationEnd} from '@angular/router';
 import {FormattingService} from '../services/formatting.service';
 import {Subscription} from 'rxjs';
 import { ScrollingService } from '../services/scrolling.service';
+import { QueryMetaService } from '../services/query-meta.service';
 // google analytics gtag
 declare var gtag: Function;
 
@@ -20,6 +21,7 @@ export class ContentComponent implements OnInit, OnDestroy {
     private sanitizer: DomSanitizer, 
     private contentService: ContentService,
     private route: ActivatedRoute,
+    public metaService: QueryMetaService,
     public formatter: FormattingService,
     private router: Router,
     private scrolling: ScrollingService
@@ -36,7 +38,7 @@ export class ContentComponent implements OnInit, OnDestroy {
         return;
       }
       gtag('config', 'UA-121723672-1', {'page_path': evt.url});
-     
+      this.content = null;
       this.scrolling.goTop();
       this.url2Content(evt.url);
     });

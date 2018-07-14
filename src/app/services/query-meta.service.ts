@@ -69,4 +69,10 @@ export class QueryMetaService {
     });
     return queryMeta;
   }
+  setStarProfile(){
+
+  }
+  getStarProfile(starname: string): string{
+    return "https://fs.xcity.jp/imgsrc/image/person/thumb_1525750634.jpg?width=200&height=200"
+  }
 }

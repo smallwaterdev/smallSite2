@@ -16,11 +16,12 @@ $num-item-per-page: 60;
         }
     }
 }
-@mixin contents-block($side-margin, $gap, $num-item, $num-item-per-row, $width-x: 240px){
+@mixin contents-block( $gap, $num-item, $num-item-per-row, $width:85%){
     $num-item-row: ceil($num-item / $num-item-per-row);
-    margin: 10px $side-margin 10px $side-margin;
+    margin: 10px auto 10px auto;
     display: grid;
-    grid-template-columns: repeat($num-item-per-row, $width-x);
+    grid-auto-columns: $num-item-per-row;
+    width: $width;
     grid-template-rows: repeat($num-item-row, auto);
     grid-column-gap: $gap;
     grid-row-gap: $gap;
@@ -28,8 +29,8 @@ $num-item-per-page: 60;
     align-items: stretch;
     justify-content: center;
     img{
-        width: $width-x;
-        height: ceil($width-x * 0.6);
+        width: 100%;
+        //height: ceil(width * 0.6);
     }
 }
 
@@ -39,31 +40,31 @@ $num-item-per-page: 60;
 @include grid-template-areas-generator(30,6);
 @media screen and (min-width:1630px) and (max-width:1880px){
     .contet-list-container{
-        @include contents-block(15px, 6px,30 ,5);
+        @include contents-block( 6px,30 ,5fr);
     }
     @include grid-template-areas-generator(30,5);
 }
 @media screen and (min-width:1100px) and (max-width:1630px){
     .contet-list-container{
-        @include contents-block(12px, 6px, 30 ,4);
+        @include contents-block(6px, 30 ,4fr);
     }
     @include grid-template-areas-generator(30,4);
 }
 @media screen and (min-width:820px) and (max-width:1100px){
     .contet-list-container{
-        @include contents-block(8px, 6px, 30 ,3);
+        @include contents-block( 6px, 30 ,3fr);
     }
     @include grid-template-areas-generator(30,3);
 }
-@media screen and (min-width:590px) and (max-width:820px){
+@media screen and (min-width:600px) and (max-width:820px){
     .contet-list-container{
-        @include contents-block(8px, 6px, 30 ,2);
+        @include contents-block(6px, 30 ,2fr, 90%);
     }
     @include grid-template-areas-generator(30,2);
 }
-@media screen and (max-width:590px){
+@media screen and (max-width:600px){
     .contet-list-container{
-        @include contents-block(5px, 5px, 30 ,1, 340px);
+        @include contents-block(5px, 30 ,1fr, 95%);
     }
     @include grid-template-areas-generator(30,1);
 }
@@ -99,7 +100,7 @@ $num-item-per-page: 60;
     }
  
     .content-card-info{
-        height: 110px;
+        max-height: 110px;
         padding: 10px;
         .card-title {
             position: relative;

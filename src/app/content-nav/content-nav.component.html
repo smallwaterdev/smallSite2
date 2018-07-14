@@ -3,7 +3,7 @@
         <p><span>{{formatter.convertStarname(type_value)}}</span></p><p><span>Porn Videos</span></p>
     </div>
     <div id="nav-sort">
-        <mat-form-field>
+        <mat-form-field *ngIf="!disable_sort">
             <mat-select placeholder="Sorted by" (selectionChange)="sortedBy($event)" [(ngModel)]="selectedSort">
                 <mat-option *ngFor="let sort of support_sorts" [value]="sort.value">
                     {{ sort.viewValue }}

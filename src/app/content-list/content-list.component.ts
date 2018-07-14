@@ -50,7 +50,7 @@ export class ContentListComponent implements OnInit {
   constructor(
     private contentService: ContentService,
     private router: Router,
-    private formatter: FormattingService,
+    public formatter: FormattingService,
    // private eventBridge: EventBridgeService,
     private scrolling: ScrollingService,
     private watchLater: WatchLaterService

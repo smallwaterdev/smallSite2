@@ -63,4 +63,13 @@ export class FormattingService {
   convertDate(value:string){
     return value.substring(0, 10);
   }
+  convertImageUrl(value: string){
+    if(value.indexOf('googleusercontent.com') !== -1){
+      let p = value.indexOf('url=');
+      if(p !== -1){
+        return value.substring(p + 4, value.length);
+      }
+    }
+    return value;
+  }
 }

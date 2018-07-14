@@ -7,7 +7,9 @@
       <div id="sub-info">
        <div id="starnames">
          <div class="star-profile" *ngFor="let starname of content.starnames">
-          <a class="starname-link" [routerLink]="'/pornstar/' + starname"><img class="profile-image" src="/assets/images/download.jpg"></a>
+          <a class="starname-link" [routerLink]="'/pornstar/' + starname">
+            <img class="profile-image" [src]="'http://www.javferry.com/star_profile_images/' + starname + '.jpg'" onerror="this.onerror=null;this.src='/assets/images/photo_not_available.jpg';">
+          </a>
            <p><a class="starname-link" [routerLink]="'/pornstar/' + starname">{{formatter.convertStarname(starname)}}</a></p>
          </div>
        </div>
