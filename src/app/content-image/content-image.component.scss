@@ -1,0 +1,33 @@
+.content-card-img{
+    position: relative;
+    background-color: rgb(255,255,255);
+    margin: 0;
+    padding: 0;
+    img{
+        padding: 0;
+        margin:0;
+    }
+    .duration{
+        position: absolute;
+        font-size: 12px;
+        bottom: 10px;
+        right: 8px;
+        background-color:hsl(0, 0%, 6.7%);
+        opacity: .8;
+        color:rgb(238, 238, 238);
+        word-wrap: break-word;
+        font-family: Roboto,Arial, sans-serif;
+        display: inline;
+        text-size-adjust: 100%;
+    }
+    .fa-clock, .fa-check{
+        border-radius: 2px;
+        position: absolute;
+        font-size:18px;
+        top: 8px;
+        right: 8px;
+        opacity: .8;
+        color:rgb(238, 238, 238);
+        background-color: hsl(0, 0%, 6.7%);
+    }
+}

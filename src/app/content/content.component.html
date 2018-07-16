@@ -2,32 +2,7 @@
     <!--<div id="main-player">-->
     <iframe id="main-player" allowfullscreen [src]="safeUrl"  frameborder="0"></iframe>
     <!--</div>-->
-    <div id="main-info">
-      <h6>{{content.title}}</h6>
-      <div id="sub-info">
-       <div id="starnames">
-         <div class="star-profile" *ngFor="let starname of content.starnames">
-          <a class="starname-link" [routerLink]="'/pornstar/' + starname">
-            <img class="profile-image" [src]="'http://www.javferry.com/star_profile_images/' + starname + '.jpg'" onerror="this.onerror=null;this.src='/assets/images/photo_not_available.jpg';">
-          </a>
-           <p><a class="starname-link" [routerLink]="'/pornstar/' + starname">{{formatter.convertStarname(starname)}}</a></p>
-         </div>
-       </div>
-       <div id="other-info">
-        <p><span class="field-name">Category: </span>
-          <a *ngFor="let category of content.genres.slice(0, content.genres.length-1)" [routerLink]="'/category/' + category">{{formatter.convertStarname(category)}},&nbsp;</a>
-          <a *ngIf="content.genres[content.genres.length-1]" [routerLink]="'/category/' + content.genres[content.genres.length-1]">{{formatter.convertStarname(content.genres[content.genres.length-1])}}</a>
-        </p>
-        <p><span class="field-name">Studio: </span>
-          <a [routerLink]="'/studio/' + content.studio">{{formatter.convertStarname(content.studio)}}</a>
-        </p>
-        <p><span class="field-name">Director: </span>
-          <a [routerLink]="'/director/' + content.director">{{formatter.convertStarname(content.director)}}</a>
-        </p>
-        <p><span class="field-name">Released on: </span>{{formatter.convertDate(content.releaseDate)}}</p>
-       </div>
-      </div>
-    </div>
+    <app-content-info id="info" [content]="content"></app-content-info>
     <app-side-content-list id="recommended-list" [content-list]="recommend_contents_list">
 
     </app-side-content-list>

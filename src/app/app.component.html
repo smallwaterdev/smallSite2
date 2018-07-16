@@ -41,7 +41,7 @@
     <button fxHide fxShow.gt-sm mat-button routerLink="/watchlater">Watch later</button>       
     <span class="toolbar-filler"></span>
     <div class="search-input" fxHide fxShow.gt-xs>
-        <input type="search" size="30" placeholder=" Search" [(ngModel)]="searchValue" (keyup.enter)="search()">
+        <input name="search" size="30" placeholder=" Search Javferry" [(ngModel)]="searchValue" (keyup.enter)="search()">
     </div>
     <button mat-button fxShow fxHide.gt-sm (click)="sidenavToggle()"><mat-icon>menu</mat-icon></button> 
 </div>
@@ -52,7 +52,10 @@
     <button mat-button routerLink="/meta/director">Directors</button>
     <button mat-button routerLink="/watchlater">Watch later</button>
     <div class="search-input" fxShow fxHide.gt-xs>
-        <input type="search" size="60%" placeholder=" Search" [(ngModel)]="searchValue" (keyup.enter)="search()">
+        <form>
+        <input name="search" width="100%" placeholder=" Search Javferry" [(ngModel)]="searchValue" (keyup.enter)="search()">
+        <input type="submit" hidden>
+        </form>
     </div>
 </div>
 <router-outlet></router-outlet>

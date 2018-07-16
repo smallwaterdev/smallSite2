@@ -1,9 +1,12 @@
 .card-media{
     display: flex;
     flex-direction: row;
-    height: 120px;
-    padding: 5px 10px 5px 10px;
-    .recommend-img{
+    height: 100px;
+    padding: 5px 5px 8px 5px;
+    border-bottom-style: solid;
+    border-bottom-color: rgb(200,200,200);
+    border-bottom-width: 1px;
+    /*.recommend-img{
         position: relative;
         height: 110px;
         width: 168px;
@@ -20,9 +23,9 @@
             display: inline;
             text-size-adjust: 100%;
         }
-    }
+    }*/
     .card-media-info{
-        height: 110px;
+        height: 100%;
         padding: 0 0 0 10px; 
         .title {
             position: relative;

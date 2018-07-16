@@ -1,12 +1,6 @@
 
-<div *ngFor="let content of contents">
-      <div class="card-media">
-        <div class="recommend-img">
-          <a [routerLink]="'/content/' + content._id">
-            <img style="width:168px;height:100px;" [src]="content.imgSummaryUrl" onerror="this.onerror=null;this.src='/assets/images/photo_not_available.jpg';">
-          </a>
-          <span *ngIf="content.duration" class="duration">&nbsp;{{formatter.convertDuration(content.duration)}}&nbsp;</span>
-        </div>
+<div *ngFor="let content of contents" class="card-media">
+        <app-content-image [content]="content" [imageWidth]="168" [imageHeight]="100"></app-content-image>
         <div class="card-media-info">
             <div class="title ellipsis">
               <a [routerLink]="'/content/' + content._id"><span class="text-concat">{{content.title}}</span></a>
@@ -20,6 +14,6 @@
               <span *ngIf="content.genres.indexOf('uncensored') !== -1" class="tag-value uncensored">&nbsp;&nbsp;U&nbsp;&nbsp;</span>
             </div>
         </div>
-      </div>
-      <mat-divider></mat-divider>
+ 
+      
 </div>

@@ -27,6 +27,8 @@ import { FunctionPanelComponent } from './function-panel/function-panel.componen
 import {MatSliderModule} from '@angular/material/slider';
 import {MatSlideToggleModule} from '@angular/material/slide-toggle';
 import { WatchLaterListComponent } from './watch-later-list/watch-later-list.component';
+import { ContentInfoComponent } from './content-info/content-info.component';
+import { ContentImageComponent } from './content-image/content-image.component';
 export function meta_list_matcher(url: UrlSegment[]) {
  
   if(
@@ -78,7 +80,9 @@ const routes: Route[]=[
     NotFoundPageComponent,
     MetaNavComponent,
     FunctionPanelComponent,
-    WatchLaterListComponent
+    WatchLaterListComponent,
+    ContentInfoComponent,
+    ContentImageComponent
     
   ],
   imports: [

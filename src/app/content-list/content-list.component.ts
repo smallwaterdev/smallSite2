@@ -1,4 +1,4 @@
-import { Component, OnInit , ViewChild} from '@angular/core';
+import { Component, OnInit , ViewChild, HostListener} from '@angular/core';
 import { Content, SessionContent , SessionContents} from '../data-structures/Content'; 
 import {ContentService} from '../services/content.service';
 import {Router, NavigationEnd} from '@angular/router';
@@ -30,8 +30,6 @@ export class ContentListComponent implements OnInit {
   __cancel_spinner: boolean;
   currentSession: string;
 
-  icon_padding:string = '3px';
-  icon_opacity = '0.8';
   startSpinner(){
     this.__cancel_spinner = false;
     this.__spinner_waiter = setInterval(()=>{
@@ -51,9 +49,7 @@ export class ContentListComponent implements OnInit {
     private contentService: ContentService,
     private router: Router,
     public formatter: FormattingService,
-   // private eventBridge: EventBridgeService,
-    private scrolling: ScrollingService,
-    private watchLater: WatchLaterService
+    private scrolling: ScrollingService
   ) { }
   content_title_length_limit: number = 70;
   subtitle(title){
@@ -70,6 +66,7 @@ export class ContentListComponent implements OnInit {
     gtag('config', 'UA-121723672-1', {'page_path': url});
   }
   ngOnInit() {
+    this._UIngOnInit();
     // listener and initial update
     this.routerEvent = this.router.events.subscribe((evt)=>{
       if(!(evt instanceof NavigationEnd)){
@@ -104,6 +101,9 @@ export class ContentListComponent implements OnInit {
       this.cancelSpinner();
       this.contents = data.contents;
       this.functionPanelComponent.contentListFinishLoad();
+      if(this.contents.length === 0){
+        alert('Sorry, we found nothing.')
+      }
     }
   }
   __searchByTitle(sessionid: string, url:string){
@@ -161,7 +161,38 @@ export class ContentListComponent implements OnInit {
   ngOnDestroy(){
     this.routerEvent.unsubscribe();
   }
+
+
+  // UI
   isDisplayPanel: string = "none";
+  image_width:number= -1; // size as grid width
+  image_height: number = 125;
+  enlargeWatchLater: boolean = false;
+  flex_direction:string= 'column';
+  //num_column: number = 1;
+  // ui setting
+  _UIngOnInit(){
+    let width = document.body.clientWidth;
+    if(width <= 850 && width >= 550){
+      this.flex_direction= 'row';
+      this.image_width = 200;
+      this.image_height = 112;
+    }else if(width < 550){
+      this.flex_direction= 'column';
+      this.image_width = -1;
+      this.image_height = Math.ceil(width * 0.6);;
+    }else{
+      this.flex_direction= 'column';
+      this.image_width = -1;
+      this.image_height = 125;//Math.ceil(250 * 0.5);
+    }
+  }
+  // ui event
+  @HostListener('window:resize', ['$event'])
+  onResize(event){
+    this._UIngOnInit();
+  }
+
   toggleFunctionPanel(){
     if(this.isDisplayPanel === 'none'){
       this.isDisplayPanel = 'block';
@@ -172,23 +203,13 @@ export class ContentListComponent implements OnInit {
   bodyClick(){
     this.isDisplayPanel = 'none';
   }
-
-  // watch later
-  isAddedToWaterLater(id: string){
-    return this.watchLater.hasContent(id)
-  }
-  addToWaterLater(content: Content){
-    this.watchLater.store(content);
-  }
-
-  scrollingHandler(isScrolling){
+  scrollingHandler(isScrolling:boolean){
     if(isScrolling){
-      this.icon_padding = '3px 3px 80px 130px';
-      this.icon_opacity = '0.4';
+      this.enlargeWatchLater = true;
     }else{
-      this.icon_padding = '3px';
-      this.icon_opacity = '0.8';
+      this.enlargeWatchLater = false;
     }
   }
+  
 
 }

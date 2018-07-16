@@ -1,0 +1,28 @@
+<div *ngIf="content" id="main-info">
+    <h5 class="title">{{content.title}}</h5>
+    <div id="sub-info">
+     <div id="starnames">
+       <div class="star-profile" *ngFor="let starname of content.starnames">
+        <a class="starname-link" [routerLink]="'/pornstar/' + starname">
+          <img class="profile-image" [src]="'http://www.javferry.com/star_profile_images/' + starname + '.jpg'" onerror="this.onerror=null;this.src='/assets/images/photo_not_available.jpg';">
+        </a>
+         <p><a class="starname-link" [routerLink]="'/pornstar/' + starname">{{formatter.convertStarname(starname)}}</a></p>
+       </div>
+     </div>
+     <div id="other-info">
+      <p><span class="field-name">Category: </span>
+        <a *ngFor="let category of content.genres.slice(0, content.genres.length-1)" [routerLink]="'/category/' + category">{{formatter.convertStarname(category)}},&nbsp;</a>
+        <a *ngIf="content.genres[content.genres.length-1]" [routerLink]="'/category/' + content.genres[content.genres.length-1]">{{formatter.convertStarname(content.genres[content.genres.length-1])}}</a>
+      </p>
+      <p><span class="field-name">Studio: </span>
+        <a [routerLink]="'/studio/' + content.studio">{{formatter.convertStarname(content.studio)}}</a>
+      </p>
+      <p><span class="field-name">Director: </span>
+        <a [routerLink]="'/director/' + content.director">{{formatter.convertStarname(content.director)}}</a>
+      </p>
+      <p>
+        <span class="field-name">Released on: </span>{{formatter.convertDate(content.releaseDate)}}
+      </p>
+     </div>
+    </div>
+  </div>

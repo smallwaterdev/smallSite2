@@ -1,0 +1,19 @@
+<!--
+  input content
+  image height,width
+  largeWatchLater
+
+  // requirement
+  // 1. the main requirement for the content-image is the size.
+  // A fixed size is accessible for desktop, but a precentage size is required for mobile platform.
+
+-->
+<div *ngIf="content" class="content-card-img">
+    <a [routerLink]="'/content/' + content._id">
+      <img [src]="content.imgSummaryUrl" [ngStyle]="image_size" onerror="this.onerror=null;this.src='/assets/images/photo_not_available.jpg';">
+    </a>
+    <span *ngIf="content.duration" class="duration">&nbsp;{{formatter.convertDuration(content.duration)}}&nbsp;</span>
+    
+    <i *ngIf="!isAddedToWaterLater(content._id)" class="far fa-clock"  [ngStyle]="{'padding': icon_padding, 'opacity': icon_opacity}" (click)="addToWaterLater(content)"></i>
+    <i *ngIf="isAddedToWaterLater(content._id)"class="fas fa-check" [ngStyle]="{'padding':icon_padding, 'opacity': icon_opacity }"></i>
+</div>

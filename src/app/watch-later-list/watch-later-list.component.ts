@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit,HostListener } from '@angular/core';
 import {Content }from '../data-structures/Content';
 import { WatchLaterService } from '../services/watch-later.service';
 import { FormattingService } from '../services/formatting.service';
@@ -13,8 +13,7 @@ import {MediaChange, ObservableMedia} from '@angular/flex-layout';
 export class WatchLaterListComponent implements OnInit {
   playing_id: string = "";
   safeUrl: SafeResourceUrl;
-  isMoblie: boolean = false;
-  iframe_height= "400px";
+  
   //content_card_img_height = "300px";
   constructor(
     private watchLater: WatchLaterService,
@@ -24,45 +23,8 @@ export class WatchLaterListComponent implements OnInit {
     private media: ObservableMedia
   ) { }
   contents: Content[] = []; 
-  ngOnInit() {
-    this.media.subscribe((change: MediaChange) => {
-      /*switch(change.mqAlias){
-        case "xs":{
-          this.isMoblie = true ;
-          this.content_card_img_height = "300px";
-        };break;
-        case "sm":{
-          this.isMoblie = false ;
-          this.content_card_img_height = "200px";
-        };break;
-        case "md":{
-          this.isMoblie = false;
-          this.content_card_img_height = "170px";
-        };break;
-        case "lg":{
-          alert('lg');
-        };break;
-        default:{
-          //xl
-          alert('xl');
-        };break;
-
-      }*/
-      if(['xs'].indexOf(change.mqAlias) !== -1){
-        this.isMoblie = true;
-      }else{
-        this.isMoblie = false;
-      }
-      this.iframe_height = Math.ceil(document.body.clientWidth * 0.6) + 'px';
-      //this.content_card_img_height = "200px";
-    });
-    if(document.body.clientWidth <= 590){
-      this.isMoblie = true;
-    }else{
-      this.isMoblie = false;
-    }
-    this.iframe_height = Math.ceil(document.body.clientWidth * 0.6) + 'px';
-    
+  ngOnInit() {    
+    this._UIngOnInit();
     this.scrolling.stopScrolling();
     this.scrolling.goTop();
     this.contents = this.watchLater.getAll();
@@ -79,5 +41,36 @@ export class WatchLaterListComponent implements OnInit {
   }
   getFrameUrl(videoUrl: string){
     this.safeUrl = this.sanitizer.bypassSecurityTrustResourceUrl(videoUrl);
+  }
+
+  //UI
+  isMoblie: boolean = false;
+  image_width:string= '100%'; // size as grid width
+  image_height: string = '125';
+  flex_direction:string = 'column';
+  // ui function 
+  _UIngOnInit(){
+    let width = document.body.clientWidth;
+    if(width <= 850 && width >= 550){
+      this.isMoblie = true;
+      this.flex_direction= 'row';
+      this.image_width = '200px';
+      this.image_height = '112px';
+    }else if(width < 550){
+      this.isMoblie = true;
+      this.flex_direction= 'column';
+      this.image_width = '100%';
+      this.image_height = Math.ceil(width * 0.6).toString() + 'px';
+    }else{
+      this.isMoblie = false;
+      this.flex_direction= 'column';
+      this.image_width = '250px';
+      this.image_height = '125px';
+    }
+  }
+  // ui event
+  @HostListener('window:resize', ['$event'])
+  onResize(event){
+    this._UIngOnInit();
   }
 }

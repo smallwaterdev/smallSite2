@@ -17,7 +17,9 @@
 @mixin resize-container($video-width, $video-height){
     .content-container{
         display: grid;
-        grid-template-columns: $video-width;
+        width: $video-width;
+        margin: 10px auto 10px auto;
+        grid-template-columns: 1fr;
         grid-template-rows: $video-height auto auto;
         justify-items: stretch;
         align-items: stretch;
@@ -31,6 +33,7 @@
 @mixin full-width($width-x){
     .content-container{
         display: grid;
+        margin: 10px auto 10px auto;
         grid-template-columns: 100%;
         grid-template-rows: 235px auto auto;
         
@@ -91,58 +94,7 @@
     padding: 0;
     box-shadow: 1px 2px 2px rgb(240,240,240);
 }
-#main-info{
-    h6{
-        width: 97%;
-        margin:auto;
-    }
+#info{
     grid-area: info;
-    background-color: rgb(255, 255, 255);
-    box-shadow: 1px 2px 2px rgb(240, 240, 240);
-    padding: 7px 10px 13px 10px;
-    
-    #sub-info{
-        display: flex;
-        flex-direction: column;
-        #starnames{
-            display: flex;
-            flex-direction: row;
-            flex-wrap: wrap;
-            .star-profile{
-                padding: 0 10px 0 10px;
-                font-size: 13px;
-                width: 130px;
-                
-                p{
-                    position: relative;
-                    max-height: 1.2em;
-                    line-height: 1.2em;
-                    overflow: hidden;
-                    a{
-                        color:rgb(90, 90, 90);
-                    }
-                }
-                img{
-                    
-                    width: 50px;
-                    height: 50px;
-                    border-radius: 50%;
-                }
-            }
-        }
-        #other-info{
-            padding: 0px 10px 0px 10px;
-            font-size: 13px;
-            p{  
-                margin: 0;
-                word-wrap: break-word;
-                a{
-                    color: rgb(90, 90, 90);
-                }
-                span{
-                    color: black;
-                }
-            }
-        }
-    }
 }
+

@@ -1,11 +1,14 @@
 <app-content-nav></app-content-nav>
-
-<div class="contet-list-container" (click)='bodyClick()'>
+<div  (click)='bodyClick()'>
+<div class="content-list-container">
     <div id="spinner">
       <mat-spinner [ngStyle]="{'display':isShowSpinner?'block':'none'}" [diameter]="80" color="primary"></mat-spinner>
     </div>
-    <div *ngFor="let content of contents; let i = index" [id]="'item-' + (i + 1)" class="content-card">
-        <div class="content-card-img">
+    <div *ngFor="let content of contents; let i = index" 
+        [id]="'item-' + (i + 1)" 
+        class="content-card" 
+        [ngStyle]="{'flex-direction':flex_direction}">
+        <!--<div class="content-card-img">
             <a [routerLink]="'/content/' + content._id">
               <img [src]="content.imgSummaryUrl" onerror="this.onerror=null;this.src='/assets/images/photo_not_available.jpg';">
             </a>
@@ -14,7 +17,8 @@
             <i *ngIf="!isAddedToWaterLater(content._id)" class="far fa-clock"  [ngStyle]="{'padding': icon_padding, 'opacity': icon_opacity}" (click)="addToWaterLater(content)"></i>
             <i *ngIf="isAddedToWaterLater(content._id)"class="fas fa-check" [ngStyle]="{'padding':icon_padding, 'opacity': icon_opacity }"></i>
             
-        </div>
+        </div>-->
+        <app-content-image [content]="content" [imageWidth]="image_width" [imageHeight]="image_height" [largeWatchLater]="enlargeWatchLater"></app-content-image>
         <div class="content-card-info">
             <div class="card-title">
               <a [routerLink]="'/content/' + content._id"><span class="text-concat">{{content.title}}</span></a>
@@ -29,6 +33,7 @@
             </div>
         </div>
     </div>
+</div>
 </div>
 <app-function-panel (scrolling)="scrollingHandler($event)" [ngStyle]="{'display': isDisplayPanel}" style="position:fixed;bottom: 60px;right:20px; z-index: 10"></app-function-panel>
 <button mat-raised-button (click)="toggleFunctionPanel()" style="position:fixed;bottom: 20px;right:20px; z-index: 10"><i class="far fa-star" style="font-size:20px"></i></button>

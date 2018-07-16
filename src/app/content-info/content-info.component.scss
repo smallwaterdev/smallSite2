@@ -1,0 +1,60 @@
+#main-info{
+   
+    grid-area: info;
+    background-color: rgb(255, 255, 255);
+    box-shadow: 1px 2px 2px rgb(240, 240, 240);
+    padding: 7px 0px 13px 0px;
+    .title{
+        width: 95%;
+        margin: auto;
+    }
+    #sub-info{
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        #starnames{
+            width: 95%;
+            margin: auto;
+            display: flex;
+            flex-direction: row;
+            flex-wrap: wrap;
+            .star-profile{
+                
+                font-size: 13px;
+                width: 130px;
+                
+                p{
+                    position: relative;
+                    max-height: 1.2em;
+                    line-height: 1.2em;
+                    overflow: hidden;
+                    a{
+                        color:rgb(90, 90, 90);
+                    }
+                }
+                img{
+                    
+                    width: 50px;
+                    height: 50px;
+                    border-radius: 50%;
+                }
+            }
+        }
+        #other-info{
+            
+            width: 95%;
+            margin: auto;
+            font-size: 13px;
+            p{  
+                margin: 0;
+                word-wrap: break-word;
+                a{
+                    color: rgb(90, 90, 90);
+                }
+                span{
+                    color: black;
+                }
+            }
+        }
+    }
+}
