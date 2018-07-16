@@ -4,15 +4,17 @@
         <mat-spinner [ngStyle]="{'display':isShowSpinner?'block':'none'}" [diameter]="80" color="primary"></mat-spinner>
     </div>
     <div *ngFor="let metaItem of metaItems" class="meta-item">
-        <div class="profile-img">
+        <div *ngIf="type === 'pornstar'" class="profile-img">
             <a [routerLink]="'/' + type + '/' + metaItem.name">
-                
-                <img *ngIf="type === 'pornstar'" width="100%" height="100%" [src]="'http://www.javferry.com/star_profile_images/' + metaItem.name + '.jpg'" onerror="this.onerror=null;this.src='/assets/images/photo_not_available.jpg';"/>
-                <img *ngIf="type !== 'pornstar'" width="100%" height="100%" [src]='metaItem.profile_url' onerror="this.onerror=null;this.src='/assets/images/photo_not_available.jpg';"/>
+                <img 
+                    width="100%" height="100%" 
+                    [src]="getStarProfileUrl(metaItem)" 
+                    onerror="this.onerror=null;this.src='/assets/images/photo_not_available.jpg';"/>
+                <!--<img *ngIf="type !== 'pornstar'" width="100%" height="100%" [src]='metaItem.profile_url' onerror="this.onerror=null;this.src='/assets/images/photo_not_available.jpg';"/>-->
             </a>
         </div>
         <div class="intro">
-            <p>({{metaItem.counter}})&nbsp;&nbsp;<a [routerLink]="'/' + type + '/' + metaItem.name"><span class="meta-link">{{formatter.convertStarname(metaItem.name)}}</span></a></p>
+            <p><a [routerLink]="'/' + type + '/' + metaItem.name"><span class="meta-link">{{formatter.convertStarname(metaItem.name)}}</span></a>&nbsp;&nbsp;({{metaItem.counter}})</p>
         </div>
     </div>
 </div>

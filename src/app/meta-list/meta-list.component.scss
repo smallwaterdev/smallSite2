@@ -1,6 +1,6 @@
 @mixin layout($col, $row, $gap) {
     grid-template-columns: repeat($col, 180px);
-    grid-template-rows: repeat($row, 225px); 
+    grid-template-rows: repeat($row, auto); 
     grid-column-gap: $gap;
     grid-row-gap: $gap;
     .meta-item{
@@ -32,9 +32,8 @@
         grid-row-gap: 8px;
     }
     justify-content: center;
-    justify-items: stretch;
-    align-items: stretch;
-    
+    justify-items: center; // e.g. a grid width is 200px, if the internal content is less then 200px, how to do
+    align-items: center;
    
     .meta-item{
         align-self: stretch;
@@ -46,8 +45,10 @@
             padding-top:2px;
             height: 45px;
             text-align: center;
+            a{
+                text-decoration: none;
+            }
             p{
-
                 font-size :13px;
                 max-height: 26px;
                 color: rgb(90, 90, 90);

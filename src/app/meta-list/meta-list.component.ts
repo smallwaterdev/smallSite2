@@ -20,6 +20,16 @@ export class MetaListComponent implements OnInit, OnDestroy {
   type: string;
   __metaNameConverter:Object = {};
 
+  star_profile_url:string;
+
+  getStarProfileUrl(meta:Meta):string{
+    if(meta.profile_url){
+      return meta.profile_url;
+    }else{
+      return "";
+    }
+  }
+
   isShowSpinner: boolean;
   __spinner_waiter;
   __cancel_spinner: boolean;
@@ -75,6 +85,7 @@ export class MetaListComponent implements OnInit, OnDestroy {
   }
   
   url2MetaList(url: string){
+    this.metaItems = [];
     this.startSpinner();
     let segments = url.split('/');
     this.type = segments[2];
