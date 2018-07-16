@@ -26,7 +26,7 @@ export class MetaListComponent implements OnInit, OnDestroy {
     if(meta.profile_url){
       return meta.profile_url;
     }else{
-      return "";
+      return '/assets/images/photo_not_available.jpg';
     }
   }
 
