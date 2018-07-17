@@ -52,7 +52,7 @@ export class WatchLaterListComponent implements OnInit {
   _UIngOnInit(){
     let width = document.body.clientWidth;
     if(width <= 850 && width >= 550){
-      this.isMoblie = true;
+      this.isMoblie = false;
       this.flex_direction= 'row';
       this.image_width = '200px';
       this.image_height = '112px';
