@@ -4,7 +4,7 @@ export class Content{
     videoDomain: string;
     videoUrl: string;
     director: string;
-    starnames: string[];
+    starnames: {};
     genres: string[];
     studio: string;
     duration: number;

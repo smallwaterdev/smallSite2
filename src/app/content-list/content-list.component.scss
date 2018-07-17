@@ -126,21 +126,21 @@ $num-item-per-page: 60;
 @media screen and (min-width:375px) and (max-width:389px){
     // unkown
     .content-list-container{
-        @include contents-block(30, 6px, 1, 375px, 375px);
+        @include contents-block(30, 6px, 1, 360px, 360px);
     }
     @include grid-template-areas-generator(30,1);
 }
 @media screen and (min-width:360px) and (max-width:374px){
     // iphone 6
     .content-list-container{
-        @include contents-block(30, 6px, 1, 360px, 360px);
+        @include contents-block(30, 6px, 1, 350px, 350px);
     }
     @include grid-template-areas-generator(30,1);
 }
 @media screen and (min-width:320px) and (max-width:359px){
     // s5 (360px) and below
     .content-list-container{
-        @include contents-block(30, 6px, 1, 320px, 320px);
+        @include contents-block(30, 6px, 1, 310px, 310px);
     }
     @include grid-template-areas-generator(30,1);
 }
