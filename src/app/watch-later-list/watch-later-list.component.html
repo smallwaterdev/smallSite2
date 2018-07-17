@@ -17,7 +17,7 @@
                 allowfullscreen 
                 [src]="safeUrl"  
                 frameborder="0"></iframe>
-            <span *ngIf="content.duration" class="duration">&nbsp;{{formatter.convertDuration(content.duration)}}&nbsp;</span>
+            <span *ngIf="content.duration &&  playing_id !== content._id" class="duration">&nbsp;{{formatter.convertDuration(content.duration)}}&nbsp;</span>
             <i class="far fa-times-circle" (click)="removeWatchLater(i, content._id)"></i>
         </div>
         <div *ngIf="!isMoblie" class="content-card-img">
