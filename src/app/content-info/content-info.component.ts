@@ -37,6 +37,10 @@ export class ContentInfoComponent implements OnInit {
   starnamesProfileHeight: string = "94px";
   
   _UIngOnInit(){
+      if(this.starnames.length === 0){
+        this.starnamesProfileHeight = '0px';
+        return;
+      }
       let width = document.getElementById('starnames').clientWidth * 0.95;
       if(width < this.starnames.length * 130 && this.starnamesProfileHeight === '94px'){
         this.starnamesProfileHeight = '94px';
