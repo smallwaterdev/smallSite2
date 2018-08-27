@@ -1,37 +1,3 @@
-
-<!--<mat-sidenav-container fullscreen>
-    <mat-sidenav mode="push" #sidenav opened="false" position="end" style="width:80%;">
-        <div fxLayout="column">
-            <span>&nbsp;</span>
-            <a color="warning" mat-button routerLink="/meta/category">Categories</a>
-            <a color="warning" mat-button routerLink="/meta/pornstar">Pornstars</a>
-            <a color="warning" mat-button routerLink="/meta/studio">Studios</a>
-            <a color="warning" mat-button routerLink="/meta/director">Directors</a>
-            <div id="side-search-input" fxShow fxHide.gt-xs>
-                <input type="text" size="30" placeholder="Search" [(ngModel)]="sideSearchValue" (keyup.enter)="search('side')">
-            </div>
-        </div>
-    </mat-sidenav>
-    <mat-sidenav-content>
-        <div id="top-div"></div>
-        <mat-toolbar color="primary">
-            <button color="warning" mat-button routerLink="/"><mat-icon>home</mat-icon> Javferry</button>
-            <button color="warning" fxHide fxShow.gt-sm mat-button routerLink="/meta/category">Categories</button>
-            <button color="warning" fxHide fxShow.gt-sm mat-button routerLink="/meta/pornstar">Pornstars</button>
-            <button color="warning" fxHide fxShow.gt-sm mat-button routerLink="/meta/studio">Studios</button>
-            <button color="warning" fxHide fxShow.gt-sm mat-button routerLink="/meta/director">Directors</button>
-            
-            
-            <span class="toolbar-filler"></span>
-            <div id="search-input" fxHide fxShow.gt-xs>
-                <input type="text" size="30" placeholder="Search" [(ngModel)]="searchValue" (keyup.enter)="search()">
-            </div>
-            <button mat-button color="warning" fxShow fxHide.gt-sm (click)="sidenav.toggle()"><mat-icon>menu</mat-icon></button> 
-        </mat-toolbar>
-        <router-outlet></router-outlet>
-        <button mat-raised-button color="primary" (click)="goTop()" style="position:fixed;bottom: 20px;right:20px; z-index: 10">TOP</button>
-    </mat-sidenav-content>
-</mat-sidenav-container>-->
 <div id="top-nav">
     <button mat-button routerLink="/"><mat-icon>home</mat-icon> Javferry</button>
     <button fxHide fxShow.gt-sm mat-button routerLink="/meta/category">Categories</button>

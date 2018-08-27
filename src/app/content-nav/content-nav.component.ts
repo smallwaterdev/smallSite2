@@ -2,7 +2,7 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 import { PageEvent} from '@angular/material';
 import {Router , NavigationEnd} from '@angular/router';
 import {Subscription} from 'rxjs';
-import {QueryMetaService} from '../services/query-meta.service';
+import {MetaService} from '../services/meta.service';
 import {FormattingService} from '../services/formatting.service';
 
 @Component({
@@ -13,7 +13,7 @@ import {FormattingService} from '../services/formatting.service';
 export class ContentNavComponent implements OnInit, OnDestroy {
   constructor(
     private router: Router,
-    private queryMetaService: QueryMetaService,
+    private metaService: MetaService,
     public formatter: FormattingService
   ) { }
 
@@ -89,9 +89,8 @@ export class ContentNavComponent implements OnInit, OnDestroy {
     let segments = url.split('/');
     switch(segments.length){
       case 2:{
-        this.queryMetaService.queryMetaOnFieldWithValue(url, "meta", "total").subscribe(data=>{
+        this.metaService.queryMeta(url, "meta", "total").subscribe(data=>{
           if(data.sessionid === this.router.url && data.meta){
-            // its current url
             this.total_num_items = data.meta['counter'];
           }
         });
@@ -103,7 +102,7 @@ export class ContentNavComponent implements OnInit, OnDestroy {
         
         switch(segments[1]){
           case "list":{
-            this.queryMetaService.queryMetaOnFieldWithValue(url, "meta", "total").subscribe(data=>{
+            this.metaService.queryMeta(url, "meta", "total").subscribe(data=>{
               if(data.sessionid === this.router.url){
                 // its current url
                 this.total_num_items = data.meta['counter'];
@@ -121,7 +120,7 @@ export class ContentNavComponent implements OnInit, OnDestroy {
             if(field === undefined){
               field = segments[1];
             }
-            this.queryMetaService.queryMetaOnFieldWithValue(url, field, segments[2]).subscribe(data=>{
+            this.metaService.queryMeta(url, field, decodeURIComponent(segments[2])).subscribe(data=>{
               if(data.sessionid === this.router.url){
                 // its current url
                 this.total_num_items = data.meta['counter'];

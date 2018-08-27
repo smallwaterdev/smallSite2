@@ -3,7 +3,7 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 import { PageEvent} from '@angular/material';
 import {Router , NavigationEnd} from '@angular/router';
 import {Subscription} from 'rxjs';
-import {QueryMetaService} from '../services/query-meta.service';
+import {MetaService} from '../services/meta.service';
 import {FormattingService} from '../services/formatting.service';
 @Component({
   selector: 'app-meta-nav',
@@ -15,7 +15,7 @@ export class MetaNavComponent implements OnInit, OnDestroy {
   __metaNameConverter:Object = {};
   constructor(
     private router: Router,
-    private queryMetaService: QueryMetaService,
+    private metaService: MetaService,
     public formatter: FormattingService
   ) {
     this.__metaNameConverter['category'] = 'genre';
@@ -75,7 +75,7 @@ export class MetaNavComponent implements OnInit, OnDestroy {
     switch(segments.length){
       case 3:
       case 4:{
-        this.queryMetaService.queryMetaOnFieldWithValue(this.router.url, 'meta', this.__metaNameConvert(segments[2])).subscribe(data=>{
+        this.metaService.queryMeta(this.router.url, 'meta', this.__metaNameConvert(segments[2])).subscribe(data=>{
           if(data.sessionid === this.router.url && data.meta){
             this.total_num_items = data.meta.counter;
           }

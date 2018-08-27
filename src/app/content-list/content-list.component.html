@@ -8,16 +8,6 @@
         [id]="'item-' + (i + 1)" 
         class="content-card" 
         [ngStyle]="{'flex-direction':flex_direction}">
-        <!--<div class="content-card-img">
-            <a [routerLink]="'/content/' + content._id">
-              <img [src]="content.imgSummaryUrl" onerror="this.onerror=null;this.src='/assets/images/photo_not_available.jpg';">
-            </a>
-            <span *ngIf="content.duration" class="duration">&nbsp;{{formatter.convertDuration(content.duration)}}&nbsp;</span>
-            
-            <i *ngIf="!isAddedToWaterLater(content._id)" class="far fa-clock"  [ngStyle]="{'padding': icon_padding, 'opacity': icon_opacity}" (click)="addToWaterLater(content)"></i>
-            <i *ngIf="isAddedToWaterLater(content._id)"class="fas fa-check" [ngStyle]="{'padding':icon_padding, 'opacity': icon_opacity }"></i>
-            
-        </div>-->
         <app-content-image [content]="content" [imageWidth]="image_width" [imageHeight]="image_height" [largeWatchLater]="enlargeWatchLater"></app-content-image>
         <div class="content-card-info">
             <div class="card-title">

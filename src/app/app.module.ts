@@ -29,7 +29,7 @@ import {MatSlideToggleModule} from '@angular/material/slide-toggle';
 import { WatchLaterListComponent } from './watch-later-list/watch-later-list.component';
 import { ContentInfoComponent } from './content-info/content-info.component';
 import { ContentImageComponent } from './content-image/content-image.component';
-export function meta_list_matcher(url: UrlSegment[]) {
+export function metaListMatcher(url: UrlSegment[]) {
  
   if(
     (url.length === 2 && url[0].path === 'meta') ||
@@ -39,7 +39,7 @@ export function meta_list_matcher(url: UrlSegment[]) {
     return null;
   }
 }
-export function list_matcher(url: UrlSegment[]){
+export function contentListMatcher(url: UrlSegment[]){
   // xxx.xxx.xxx
   // xxx.xxx.xxx/search/xxxx
   // xxx.xxx.xxx/list/sort
@@ -53,7 +53,7 @@ export function list_matcher(url: UrlSegment[]){
     return null;
   }
 }
-export function watch_later_matcher(url: UrlSegment[]){
+export function watchLaterMatcher(url: UrlSegment[]){
   // xxx.xxx.xxx/watchlater
   if(url.length > 0 && url[0].path === 'watchlater'){
     return {consumed:url};
@@ -63,9 +63,9 @@ export function watch_later_matcher(url: UrlSegment[]){
 }
 const routes: Route[]=[
   { path: "content/:id", component: ContentComponent},
-  { matcher: watch_later_matcher, component: WatchLaterListComponent},
-  { matcher: meta_list_matcher, component: MetaListComponent},
-  { matcher:list_matcher , component: ContentListComponent},
+  { matcher: watchLaterMatcher, component: WatchLaterListComponent},
+  { matcher: metaListMatcher, component: MetaListComponent},
+  { matcher: contentListMatcher , component: ContentListComponent},
   { path: "**", component: NotFoundPageComponent}
 ];
 

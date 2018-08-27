@@ -1,5 +1,5 @@
 import { Component, OnInit , OnDestroy} from '@angular/core';
-import {QueryMetaService} from '../services/query-meta.service';
+import {MetaService} from '../services/meta.service';
 import { Router, NavigationEnd } from '@angular/router';
 import {Meta} from '../data-structures/Meta';
 import {FormattingService} from '../services/formatting.service';
@@ -50,7 +50,7 @@ export class MetaListComponent implements OnInit, OnDestroy {
   }
 
   constructor(
-    private queryMetaService: QueryMetaService,
+    private metaService: MetaService,
     private router: Router,
     public formatter: FormattingService,
     private scrolling: ScrollingService
@@ -91,11 +91,8 @@ export class MetaListComponent implements OnInit, OnDestroy {
     this.type = segments[2];
     switch(segments.length){
       case 3:{
-        this.queryMetaService.queryMetaOnFieldWithoutValue(
-          this.router.url, 
-          this.__metaNameConvert(segments[2]),
-          0, 36
-        ).subscribe(data=>{
+        this.metaService.queryMetas(this.router.url,  this.__metaNameConvert(segments[2]), 0, 36)
+        .subscribe(data=>{
           if(data.sessionid === this.router.url){
             this.cancelSpinner();
             this.metaItems = data.metas;
@@ -103,11 +100,8 @@ export class MetaListComponent implements OnInit, OnDestroy {
         });
       };break;
       case 4:{
-        this.queryMetaService.queryMetaOnFieldWithoutValue(
-          this.router.url, 
-          this.__metaNameConvert(segments[2]),
-          (parseInt(segments[3])-1) * 36, 36
-        ).subscribe(data=>{
+        this.metaService.queryMetas( this.router.url, this.__metaNameConvert(segments[2]), (parseInt(segments[3])-1) * 36, 36)
+        .subscribe(data=>{
           if(data.sessionid === this.router.url){
             this.cancelSpinner();
             this.metaItems = data.metas;

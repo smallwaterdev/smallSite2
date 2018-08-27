@@ -1,13 +1,10 @@
 import { Component, OnInit , ViewChild, HostListener} from '@angular/core';
-import { Content, SessionContent , SessionContents} from '../data-structures/Content'; 
+import { Content , SessionContents} from '../data-structures/Content'; 
 import {ContentService} from '../services/content.service';
 import {Router, NavigationEnd} from '@angular/router';
 import {Subscription} from 'rxjs';
 import {FormattingService} from '../services/formatting.service';
-import {trigger, state, style, animate, transition} from '@angular/animations';
-import { EventBridgeService } from '../services/event-bridge.service';
 import { ScrollingService } from '../services/scrolling.service';
-import { WatchLaterService } from '../services/watch-later.service';
 import {FunctionPanelComponent} from '../function-panel/function-panel.component';
 // google analytics gtag
 declare var gtag: Function;
@@ -134,11 +131,12 @@ export class ContentListComponent implements OnInit {
     
     if(segments.length === 5){
       parseInt(segments[4]);
-      this.contentService.queryContents( sessionid, input_field, segments[2], segments[3],(parseInt(segments[4])-1) * this.item_per_page, this.item_per_page).subscribe(
+      // sessionId, field, value, sort
+      this.contentService.queryContents( sessionid, input_field, decodeURIComponent(segments[2]), segments[3],(parseInt(segments[4])-1) * this.item_per_page, this.item_per_page).subscribe(
         data=>{this.__sessionContentHandler(data);}
       )
     }else{
-      this.contentService.queryContents(sessionid,input_field, segments[2], segments[3], undefined, undefined).subscribe(
+      this.contentService.queryContents(sessionid,input_field, decodeURIComponent(segments[2]), segments[3], undefined, undefined).subscribe(
         data=>{this.__sessionContentHandler(data);}
       )
     }

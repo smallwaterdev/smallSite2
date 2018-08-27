@@ -6,21 +6,24 @@ import {smallData_user_addr, urlPrefix} from './config';
 @Injectable({
   providedIn: 'root'
 })
-export class QueryMetaService {
+@Injectable({
+  providedIn: 'root'
+})
+export class MetaService {
 
   smallData_user_addr:string = smallData_user_addr + urlPrefix;
   constructor(private http: HttpClient) { 
     console.log('[MetaService] New Service Created');
   }
   reportError(name, object){
-    alert(name + JSON.stringify(object));
+    //alert(name + JSON.stringify(object));
   }
   
   __handlerSessionMetaGenerator(sessionId: string, observer){
     let httpObserver = {
       next: data=>{
        if(data.success){
-        observer.next({sessionid: sessionId, meta: data.value});
+        observer.next({sessionid: sessionId, meta: data.value[0]});
        }else{
         observer.next({sessionid: sessionId, meta: null});
         this.reportError(sessionId, data);
@@ -33,7 +36,15 @@ export class QueryMetaService {
     };
     return httpObserver;
   }
-
+  queryMeta(sessionId: string, field: string, value: string): Observable<SessionMeta>{
+    const queryMeta = new Observable<SessionMeta>(observable=>{
+      const queryUrl = `${this.smallData_user_addr}/meta/query`;
+      const body = {condition:{ field: field, name: value }};
+      this.http.post<Object>(queryUrl, body).subscribe(this.__handlerSessionMetaGenerator(sessionId, observable));
+      return {unsubscribe(){}};
+    });
+    return queryMeta;
+  }
   __handlerSessionMetasGenerator(sessionId: string, observer){
     let httpObserver = {
       next: data=>{
@@ -51,28 +62,16 @@ export class QueryMetaService {
     };
     return httpObserver;
   }
-  queryMetaOnFieldWithoutValue(sessionId: string, field: string, from: number, limit: number): Observable<SessionMetas>{
-    const queryMeta = new Observable<SessionMetas>(observable=>{
-      const queryUrl = `${this.smallData_user_addr}/querymeta/${field}/${from}/${limit}`;
-      this.http.get<Object>(queryUrl).subscribe(this.__handlerSessionMetasGenerator(sessionId, observable));
+  queryMetas(sessionId: string, field: string, from: number, limit: number): Observable<SessionMetas>{
+    const queryMetas = new Observable<SessionMetas>(observable=>{
+      const queryUrl = `${this.smallData_user_addr}/meta/query`;
+      const body = {
+        condition:{ field: field},
+        option:{ skip: from, limit: limit, sort:{name:1}}
+      };
+      this.http.post<Object>(queryUrl, body).subscribe(this.__handlerSessionMetasGenerator(sessionId, observable));
       return {unsubscribe(){}};
     });
-    return queryMeta;
-  }
-  
-  queryMetaOnFieldWithValue(sessionId: string, field: string, value: string): Observable<SessionMeta>{
-    const queryMeta = new Observable<SessionMeta>(observable=>{
-      console.log(field, value);
-      const queryUrl = `${this.smallData_user_addr}/querymeta/${field}/${value}`;
-      this.http.get<Object>(queryUrl).subscribe(this.__handlerSessionMetaGenerator(sessionId, observable));
-      return {unsubscribe(){}};
-    });
-    return queryMeta;
-  }
-  setStarProfile(){
-
-  }
-  getStarProfile(starname: string): string{
-    return "https://fs.xcity.jp/imgsrc/image/person/thumb_1525750634.jpg?width=200&height=200"
+    return queryMetas;
   }
 }

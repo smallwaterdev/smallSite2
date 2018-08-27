@@ -2,6 +2,7 @@ export class Meta{
     field: string;
     name: string;
     profile_url: string;
+    intro: string;
     counter: number;
 }
 export class SessionMeta{

@@ -22,7 +22,7 @@ export class ContentService {
   }
   
   reportError(object){
-    alert(JSON.stringify(object));
+   //console.log(JSON.stringify(object));
   }
 
   __generateSessionContentsHandler(sessionId, isCache, observable){
@@ -52,7 +52,7 @@ export class ContentService {
    * @param skip 
    * @param limit 
    */  
-  quickQuery(sessionid: string, sort, skip, limit): Observable<SessionContents>{
+  quickQuery(sessionid: string, sort: string, skip: number, limit: number): Observable<SessionContents>{
     let contents = this.localCache.getContentListByUrl(sessionid);
     if(contents){
       return of({sessionid: sessionid, contents: contents});
@@ -60,17 +60,11 @@ export class ContentService {
       const quickQueryContent: Observable<SessionContents> = new Observable((observable)=>{
         const httpObserver = this.__generateSessionContentsHandler(sessionid, true, observable);
         /////// query now ///////////
-        let queryUrl = '';
-        if(typeof sort === 'string' && typeof skip === 'number' && typeof limit === 'number'){
-          queryUrl = `${this.smallData_user_addr}/quickquery/${sort}/${skip}/${limit}`;
-        }else if(typeof sort === 'string'){
-          queryUrl = `${this.smallData_user_addr}/quickquery/${sort}`;
-        }else if(typeof skip === 'number' && typeof limit === 'number'){
-          queryUrl = `${this.smallData_user_addr}/quickquery/${skip}/${limit}`;
-        }else{
-          queryUrl = `${this.smallData_user_addr}/quickquery`;
-        }
-        this.http.get<Content[]>(queryUrl).subscribe(httpObserver);
+        let queryUrl = `${this.smallData_user_addr}/content/query`;
+        let sort_ = {};
+        sort_[sort] = -1;
+        let option_ = {skip: skip, limit: limit, sort: sort_};
+        this.http.post<Content[]>(queryUrl, {option: option_}).subscribe(httpObserver);
       });
       return quickQueryContent;
     }
@@ -78,8 +72,6 @@ export class ContentService {
   
 
   queryContents(sessionid: string, field: string, value: string, sort: string, skip:number, limit:number): Observable<SessionContents>{
-    // /:fields/:values/:sort/:from/:limit"
-   
     let contents = this.localCache.getContentListByUrl(sessionid);
     if(contents){
       return of({sessionid: sessionid, contents: contents});
@@ -87,25 +79,19 @@ export class ContentService {
       const queryContent: Observable<SessionContents> = new Observable((observable)=>{
         const httpObserver = this.__generateSessionContentsHandler(sessionid, true, observable);
         /////// query now ///////////
-        let queryUrl = '';
-        if(field !== undefined && value !== undefined && sort !== undefined && skip !== undefined && limit !== undefined){
-          queryUrl = `${this.smallData_user_addr}/query/${field}/${value}/${sort}/${skip}/${limit}`;
-        }else if(field !== undefined && value !== undefined && sort !== undefined){
-          queryUrl = `${this.smallData_user_addr}/query/${field}/${value}/${sort}`;
-        }else if(field !== undefined && value !== undefined && skip !== undefined && limit !== undefined){
-          queryUrl = `${this.smallData_user_addr}/query/${field}/${value}/${skip}/${limit}`;
-        }else{
-          queryUrl = `${this.smallData_user_addr}/query/${field}/${value}`;
-        }
-        this.http.get<Content[]>(queryUrl).subscribe(httpObserver);
+        let queryUrl = `${this.smallData_user_addr}/content/query`;
+        let condition_ = {};
+        condition_[field] = value;
+        let sort_ = {};
+        sort_[sort] = -1;
+        let option_ = {skip: skip, limit: limit, sort: sort_};
+        this.http.post<Content[]>(queryUrl, {condition: condition_, option: option_}).subscribe(httpObserver);
       });
       return queryContent;
     }
   }
     
-    
-    
-  queryById(sessionid:string, id:string): Observable<SessionContent>{
+  queryContentById(sessionid:string, id:string): Observable<SessionContent>{
     let content = this.localCache.getContentById(id);
     if(content){
       return of({sessionid: sessionid, content:content});
@@ -130,8 +116,10 @@ export class ContentService {
           }
         }
         /////// query now ///////////
-        let queryUrl = `${this.smallData_user_addr}/query/id/${id}`;
-        this.http.get<Content>(queryUrl).subscribe(httpObserver);
+        let queryUrl = `${this.smallData_user_addr}/content/query`;
+        let condition_ = {"_id": id};
+        this.http.post<Content[]>(queryUrl, {condition: condition_}).subscribe(httpObserver);
+        
       });
       return queryByIdHttp;
     }
@@ -141,8 +129,9 @@ export class ContentService {
     const recommendContent: Observable<SessionContents> = new Observable((observable)=>{
       const httpObserver = this.__generateSessionContentsHandler(sessionid, false, observable);
       /////// query now ///////////
-      let queryUrl = `${this.smallData_user_addr}/recommendlist/${id}/${num}`;
-      this.http.get<Content[]>(queryUrl).subscribe(httpObserver);
+      let queryUrl = `${this.smallData_user_addr}/content/recommend/${id}`;
+      let option_ = {limit: num};
+      this.http.post<Content[]>(queryUrl, option_).subscribe(httpObserver);
     });
     return recommendContent;
   }
@@ -151,8 +140,8 @@ export class ContentService {
     const searchContents: Observable<SessionContents> = new Observable((observable)=>{
       const httpObserver = this.__generateSessionContentsHandler(sessionid, false, observable);
       /////// query now ///////////
-      let queryUrl = `${this.smallData_user_addr}/search/title`;
-      this.http.post<Content[]>(queryUrl, {title: title, from: from, limit: limit}).subscribe(httpObserver);
+      let queryUrl = `${this.smallData_user_addr}/content/search`;
+      this.http.post<Content[]>(queryUrl, {title: title, skip: from, limit: limit}).subscribe(httpObserver);
     });
     return searchContents;
   }

@@ -6,7 +6,6 @@ import {ActivatedRoute,Router, NavigationEnd} from '@angular/router';
 import {FormattingService} from '../services/formatting.service';
 import {Subscription} from 'rxjs';
 import { ScrollingService } from '../services/scrolling.service';
-import { QueryMetaService } from '../services/query-meta.service';
 // google analytics gtag
 declare var gtag: Function;
 
@@ -21,7 +20,6 @@ export class ContentComponent implements OnInit, OnDestroy {
     private sanitizer: DomSanitizer, 
     private contentService: ContentService,
     private route: ActivatedRoute,
-    public metaService: QueryMetaService,
     public formatter: FormattingService,
     private router: Router,
     private scrolling: ScrollingService
@@ -29,7 +27,7 @@ export class ContentComponent implements OnInit, OnDestroy {
   contentId:string;
   content: Content;
   safeUrl: SafeResourceUrl;
-  recommend_contents_list: Content[] = [];
+  recommendContentsList: Content[] = [];
   routerEvent: Subscription;
   // optimization: one query
   ngOnInit() {
@@ -43,7 +41,6 @@ export class ContentComponent implements OnInit, OnDestroy {
       this.url2Content(evt.url);
     });
     gtag('config', 'UA-121723672-1', {'page_path': this.router.url});
-    
     this.scrolling.goTop();
     this.url2Content(this.router.url);
   }
@@ -52,12 +49,12 @@ export class ContentComponent implements OnInit, OnDestroy {
   }
   url2Content(url: string){
     this.contentId = url.split('/')[2];
-    this.contentService.queryById(null, this.contentId).subscribe(data=>{
+    this.contentService.queryContentById(null, this.contentId).subscribe(data=>{
       if(data){
         this.content = data.content;
         this.getFrameUrl();
         this.contentService.queryRecommendList(null, this.content._id, 10).subscribe(list=>{
-          this.recommend_contents_list = list.contents;
+          this.recommendContentsList = list.contents;
         });
       }
     });
