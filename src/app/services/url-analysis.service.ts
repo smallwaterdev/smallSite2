@@ -87,7 +87,7 @@ export class UrlAnalysisService {
         
       default:{
         return null;
-      };break;
+      };
     }
     return result;
   }
