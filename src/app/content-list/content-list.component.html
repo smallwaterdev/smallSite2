@@ -1,5 +1,5 @@
-<app-content-nav></app-content-nav>
-<div  (click)='bodyClick()'>
+<app-content-nav [item-per-page]="item_per_page"></app-content-nav>
+<div (click)='bodyClick()'>
 <div class="content-list-container">
     <div id="spinner">
       <mat-spinner [ngStyle]="{'display':isShowSpinner?'block':'none'}" [diameter]="80" color="primary"></mat-spinner>

@@ -1,0 +1,8 @@
+
+<mat-form-field class="sort">
+    <mat-select placeholder="Sorted by" (selectionChange)="sortedBy($event)" [(ngModel)]="selectedSort">
+        <mat-option *ngFor="let sort of support_sorts" [value]="sort.value">
+            {{ sort.viewValue }}
+        </mat-option>
+    </mat-select>
+</mat-form-field>

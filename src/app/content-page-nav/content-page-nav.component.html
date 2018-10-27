@@ -1,0 +1,17 @@
+<div class="pagination">
+  <ul>
+    <li>
+      <a [routerLink]="url_prefix + '1'">First Page</a>
+    </li>
+    <li *ngFor="let page of pages; let i = index">
+        <a [ngClass]="{'page-highlight': page == selected_page}" [routerLink]="url_prefix + page">{{page}}</a>
+    </li>
+    <li>
+        <a [routerLink]="url_prefix + total_page">Last Page</a>
+      </li>
+    <li>
+        <button class="pick-button" (click)="pickRandom()">Pick</button>
+        
+    </li>
+  </ul>
+</div>

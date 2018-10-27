@@ -2,7 +2,7 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Content } from '../data-structures/Content';
 import {DomSanitizer, SafeResourceUrl} from '@angular/platform-browser';
 import {ContentService} from '../services/content.service';
-import {ActivatedRoute,Router, NavigationEnd} from '@angular/router';
+import {Router, NavigationEnd} from '@angular/router';
 import {FormattingService} from '../services/formatting.service';
 import {Subscription} from 'rxjs';
 import { ScrollingService } from '../services/scrolling.service';
@@ -19,7 +19,6 @@ export class ContentComponent implements OnInit, OnDestroy {
   constructor(
     private sanitizer: DomSanitizer, 
     private contentService: ContentService,
-    private route: ActivatedRoute,
     public formatter: FormattingService,
     private router: Router,
     private scrolling: ScrollingService

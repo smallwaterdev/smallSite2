@@ -29,6 +29,8 @@ import {MatSlideToggleModule} from '@angular/material/slide-toggle';
 import { WatchLaterListComponent } from './watch-later-list/watch-later-list.component';
 import { ContentInfoComponent } from './content-info/content-info.component';
 import { ContentImageComponent } from './content-image/content-image.component';
+import { ContentPageNavComponent } from './content-page-nav/content-page-nav.component';
+import { ContentPageSortComponent } from './content-page-sort/content-page-sort.component';
 export function metaListMatcher(url: UrlSegment[]) {
  
   if(
@@ -82,7 +84,9 @@ const routes: Route[]=[
     FunctionPanelComponent,
     WatchLaterListComponent,
     ContentInfoComponent,
-    ContentImageComponent
+    ContentImageComponent,
+    ContentPageNavComponent,
+    ContentPageSortComponent
     
   ],
   imports: [

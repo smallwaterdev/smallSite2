@@ -6,6 +6,7 @@ import {Subscription} from 'rxjs';
 import {FormattingService} from '../services/formatting.service';
 import { ScrollingService } from '../services/scrolling.service';
 import {FunctionPanelComponent} from '../function-panel/function-panel.component';
+import {ItemPerPage} from '../services/config';
 // google analytics gtag
 declare var gtag: Function;
 
@@ -20,7 +21,7 @@ export class ContentListComponent implements OnInit {
   private functionPanelComponent: FunctionPanelComponent;
 
   contents: Content[] = []; 
-  item_per_page = 20;
+  item_per_page = ItemPerPage;
   routerEvent: Subscription;
   isShowSpinner: boolean;
   __spinner_waiter;

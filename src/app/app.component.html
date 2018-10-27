@@ -1,10 +1,10 @@
 <div id="top-nav">
-    <button mat-button routerLink="/"><mat-icon>home</mat-icon> Javferry</button>
-    <button fxHide fxShow.gt-sm mat-button routerLink="/meta/category">Categories</button>
-    <button fxHide fxShow.gt-sm mat-button routerLink="/meta/pornstar">Pornstars</button>
-    <button fxHide fxShow.gt-sm mat-button routerLink="/meta/studio">Studios</button>
-    <button fxHide fxShow.gt-sm mat-button routerLink="/meta/director">Directors</button> 
-    <button fxHide fxShow.gt-sm mat-button routerLink="/watchlater">Watch later</button>       
+    <a mat-button routerLink="/"><mat-icon>home</mat-icon> Javferry</a>
+    <a fxHide fxShow.gt-sm mat-button routerLink="/meta/category">Categories</a>
+    <a fxHide fxShow.gt-sm mat-button routerLink="/meta/pornstar">Pornstars</a>
+    <a fxHide fxShow.gt-sm mat-button routerLink="/meta/studio">Studios</a>
+    <a fxHide fxShow.gt-sm mat-button routerLink="/meta/director">Directors</a> 
+    <a fxHide fxShow.gt-sm mat-button routerLink="/watchlater">Watch later</a>       
     <span class="toolbar-filler"></span>
     <div class="search-input" fxHide fxShow.gt-xs>
         <input name="search" size="30" placeholder=" Search Javferry" [(ngModel)]="searchValue" (keyup.enter)="search()">
@@ -12,11 +12,11 @@
     <button mat-button fxShow fxHide.gt-sm (click)="sidenavToggle()"><mat-icon>menu</mat-icon></button> 
 </div>
 <div id="hidden-block" [ngStyle]="{'display': sideNavStyle}">
-    <button mat-button routerLink="/meta/category">Categories</button>
-    <button mat-button routerLink="/meta/pornstar">Pornstars</button>
-    <button mat-button routerLink="/meta/studio">Studios</button>
-    <button mat-button routerLink="/meta/director">Directors</button>
-    <button mat-button routerLink="/watchlater">Watch later</button>
+    <a mat-button routerLink="/meta/category">Categories</a>
+    <a mat-button routerLink="/meta/pornstar">Pornstars</a>
+    <a mat-button routerLink="/meta/studio">Studios</a>
+    <a mat-button routerLink="/meta/director">Directors</a>
+    <a mat-button routerLink="/watchlater">Watch later</a>
     <div class="search-input" fxShow fxHide.gt-xs>
         <form>
         <input name="search" width="100%" placeholder=" Search Javferry" [(ngModel)]="searchValue" (keyup.enter)="search()">

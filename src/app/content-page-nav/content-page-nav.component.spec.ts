@@ -1,20 +1,20 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import {Router , NavigationEnd} from '@angular/router';
-import { ContentNavComponent } from './content-nav.component';
 
-describe('ContentNavComponent', () => {
-  let component: ContentNavComponent;
-  let fixture: ComponentFixture<ContentNavComponent>;
+import { ContentPageNavComponent } from './content-page-nav.component';
+
+describe('ContentPageNavComponent', () => {
+  let component: ContentPageNavComponent;
+  let fixture: ComponentFixture<ContentPageNavComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ ContentNavComponent ]
+      declarations: [ ContentPageNavComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(ContentNavComponent);
+    fixture = TestBed.createComponent(ContentPageNavComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
