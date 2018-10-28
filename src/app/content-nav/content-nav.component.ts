@@ -6,50 +6,49 @@ import {MetaService} from '../services/meta.service';
 import {FormattingService} from '../services/formatting.service';
 import {UrlAnalysisService} from '../services/url-analysis.service';
 import {URLEncodedPage} from '../data-structures/URLEncodedPage';
-import {Input } from '@angular/core';
+import {Input, ViewChild } from '@angular/core';
+import {ContentPageNavComponent} from '../content-page-nav/content-page-nav.component';
+import {ContentPageSortComponent} from '../content-page-sort/content-page-sort.component';
 @Component({
   selector: 'app-content-nav',
   templateUrl: './content-nav.component.html',
   styleUrls: ['./content-nav.component.scss']
 })
-export class ContentNavComponent implements OnInit, OnDestroy {
+export class ContentNavComponent implements OnInit {
+  @Input('item-per-page') item_per_page: number;
+  @ViewChild(ContentPageNavComponent) pageNav:ContentPageNavComponent;
+  @ViewChild(ContentPageSortComponent) pageSort: ContentPageSortComponent;
+  type_value: string;
+  pageInfo: URLEncodedPage;
+  targetSet: Set<string>; 
+
   constructor(
     private router: Router,
     private metaService: MetaService,
     public formatter: FormattingService,
     private urlAnalyzer: UrlAnalysisService
-  ) { }
-
-  @Input('item-per-page') item_per_page: number;
-  
-  type_value: string;
-  targetSet: Set<string> = new Set<string>();
-  routerEvent: Subscription;
-  ngOnInit() {
+  ) { 
+    this.targetSet = new Set<string>();
     this.targetSet.add("pornstar");
     this.targetSet.add("category");
     this.targetSet.add("studio");
     this.targetSet.add("director");
-    // set according to url
-    this.routerEvent = this.router.events.subscribe((evt)=>{
-      if(!(evt instanceof NavigationEnd)){
-        return;
-      }
-      this.url2UI(evt.url);
-      
-    });
-    this.url2UI(this.router.url);
-  }
-  ngOnDestroy(){
-    this.routerEvent.unsubscribe();
   }
 
-  url2UI(url: string){
-    let pageInfo: URLEncodedPage = this.urlAnalyzer.urlAnalysis(url);
-    if(this.targetSet.has(pageInfo.type)){
-      this.type_value = pageInfo.value;
+  
+  ngOnInit() {
+    
+  }
+ 
+
+  url2Meta(pageInfo: URLEncodedPage){
+    this.pageInfo = pageInfo;
+    if(this.targetSet.has(this.pageInfo.type)){
+      this.type_value = this.pageInfo.value;
     }else{
       this.type_value = null;
     }
+    this.pageNav.url2Meta(this.pageInfo);
+    this.pageSort.url2Meta(this.pageInfo);
   }
 }

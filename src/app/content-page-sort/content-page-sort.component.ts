@@ -6,6 +6,7 @@ import {MetaService} from '../services/meta.service';
 import {FormattingService} from '../services/formatting.service';
 import {UrlAnalysisService} from '../services/url-analysis.service';
 import {URLEncodedPage} from '../data-structures/URLEncodedPage';
+import {Input} from '@angular/core';
 @Component({
   selector: 'app-content-page-sort',
   templateUrl: './content-page-sort.component.html',
@@ -14,7 +15,7 @@ import {URLEncodedPage} from '../data-structures/URLEncodedPage';
 export class ContentPageSortComponent implements OnInit {
 
   selectedSort: string = null;
-  pageInfo: URLEncodedPage = null;
+  pageInfo: URLEncodedPage;
   //sort
   support_sorts = [
     {viewValue: "Most Viewed", value: 'view'},
@@ -26,26 +27,15 @@ export class ContentPageSortComponent implements OnInit {
   constructor(
     private router: Router,
     public formatter: FormattingService,
-    private urlAnalyzer: UrlAnalysisService
   ) { }
 
-  routerEvent: Subscription;
+
   ngOnInit() {
-    // set according to url
-    this.routerEvent = this.router.events.subscribe((evt)=>{
-      if(!(evt instanceof NavigationEnd)){
-        return;
-      }
-      this.url2Meta(evt.url);
-    });
-    this.url2Meta(this.router.url);
-  }
-  ngOnDestroy(){
-    this.routerEvent.unsubscribe();
+    
   }
   
-  url2Meta(url: string){
-    this.pageInfo = this.urlAnalyzer.urlAnalysis(url);
+  url2Meta(pageInfo: URLEncodedPage){
+    this.pageInfo = pageInfo;
     if(this.pageInfo.sort !== null){
       this.selectedSort = this.pageInfo.sort;
     }

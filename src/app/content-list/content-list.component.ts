@@ -7,6 +7,9 @@ import {FormattingService} from '../services/formatting.service';
 import { ScrollingService } from '../services/scrolling.service';
 import {FunctionPanelComponent} from '../function-panel/function-panel.component';
 import {ItemPerPage} from '../services/config';
+import {UrlAnalysisService} from '../services/url-analysis.service';
+import { URLEncodedPage } from '../data-structures/URLEncodedPage';
+import {ContentNavComponent} from '../content-nav/content-nav.component';
 // google analytics gtag
 declare var gtag: Function;
 
@@ -19,14 +22,18 @@ export class ContentListComponent implements OnInit {
 
   @ViewChild(FunctionPanelComponent)
   private functionPanelComponent: FunctionPanelComponent;
-
+  @ViewChild(ContentNavComponent)
+  private contentNav: ContentNavComponent;
   contents: Content[] = []; 
   item_per_page = ItemPerPage;
   routerEvent: Subscription;
   isShowSpinner: boolean;
+  currentSession: string;
+  pageInfo: URLEncodedPage;
+
   __spinner_waiter;
   __cancel_spinner: boolean;
-  currentSession: string;
+
 
   startSpinner(){
     this.__cancel_spinner = false;
@@ -47,7 +54,8 @@ export class ContentListComponent implements OnInit {
     private contentService: ContentService,
     private router: Router,
     public formatter: FormattingService,
-    private scrolling: ScrollingService
+    private scrolling: ScrollingService,
+    private urlAnalyzer: UrlAnalysisService
   ) { }
   content_title_length_limit: number = 70;
   subtitle(title){
@@ -78,22 +86,6 @@ export class ContentListComponent implements OnInit {
     this.reportGoogleAnalytics(this.router.url);
     this.updateContentsByUrl(this.router.url);
   }
-  
-  updateContentsByUrl(url:string){
-    this.startSpinner();
-    this.contents=[];
-    this.currentSession = url;
-    let urls = url.split('/');
-    if(urls[1] !== 'list' && urls[1] !== "" && urls[1] !== "search"){
-      // category, starname, ...
-      this.__updateContentsByUrl(this.currentSession, urls[1], this.router.url);
-    }else if(urls[1] === 'search'){
-      this.__searchByTitle(this.currentSession, this.router.url);
-    }else{
-      // list/sort/ ... or, initial
-      this.__listUpdateContentsByUrl(this.currentSession, this.router.url); 
-    }
-  }
   __sessionContentHandler(data: SessionContents){
     if(data && (data.sessionid === this.currentSession)){
       this.cancelSpinner();
@@ -104,63 +96,82 @@ export class ContentListComponent implements OnInit {
       }
     }
   }
-  __searchByTitle(sessionid: string, url:string){
-    // search 
-    let urls = url.split('/');
-    if(urls.length === 3){
-      // /search/title
-      this.contentService.searchByTitle(this.currentSession, decodeURIComponent(urls[2]), 0, this.item_per_page).subscribe(
-        data=>{this.__sessionContentHandler(data);}
-      );
-    }else{
-      // /search/title/pageno
-      this.contentService.searchByTitle(this.currentSession, decodeURIComponent(urls[2]), this.item_per_page * (parseInt(urls[3]) - 1), this.item_per_page).subscribe(
-        data=>{this.__sessionContentHandler(data);}
-      );
+  updateContentsByUrl(url:string){
+    this.startSpinner();
+    this.contents=[];
+    this.currentSession = url;
+    this.pageInfo = this.urlAnalyzer.urlAnalysis(url);
+    this.contentNav.url2Meta(this.pageInfo);
+
+    switch(this.pageInfo.type){
+      case "search":{
+        this.UpdateContentsBySearch(this.currentSession,this.pageInfo);
+      };break;
+      case "list":{
+        this.UpdateContentsByList(this.currentSession, this.pageInfo); 
+      };break;
+      case "pornstar":
+      case "studio":
+      case "director":
+      case "category":{
+        this.updateContentsByOthers(this.currentSession, this.pageInfo);
+      };break;
+
+      default:{
+        // meta, waterlater, content
+      };break;
     }
   }
-  __updateContentsByUrl(sessionid: string, field: string, url: string){
-    let segments = url.split('/');
+
+  UpdateContentsBySearch(sessionid: string, pageInfo:URLEncodedPage){
+    // search 
+    this.contentService.searchByTitle(
+      sessionid, 
+      decodeURIComponent(pageInfo.value), 
+      this.item_per_page * (pageInfo.page - 1), 
+      this.item_per_page).subscribe(
+        data=>{this.__sessionContentHandler(data);}
+    );
+  }
+
+  updateContentsByOthers(sessionid: string, pageInfo: URLEncodedPage){
+    // category, pornstars, studio, director
+
     const field_converter = {};
     field_converter['category'] = 'genre';
     field_converter['pornstar'] = 'starname';
     
-    let input_field = field_converter[field];
+    let input_field = field_converter[this.pageInfo.type];
     if(input_field === undefined){
-      input_field = field;
+      input_field = this.pageInfo.type;
     }
-    
-    if(segments.length === 5){
-      parseInt(segments[4]);
-      // sessionId, field, value, sort
-      this.contentService.queryContents( sessionid, input_field, decodeURIComponent(segments[2]), segments[3],(parseInt(segments[4])-1) * this.item_per_page, this.item_per_page).subscribe(
-        data=>{this.__sessionContentHandler(data);}
-      )
-    }else{
-      this.contentService.queryContents(sessionid,input_field, decodeURIComponent(segments[2]), segments[3], undefined, undefined).subscribe(
-        data=>{this.__sessionContentHandler(data);}
-      )
-    }
+    // sessionId, field, value, sort
+    this.contentService.queryContents(
+      sessionid, 
+      input_field, 
+      decodeURIComponent(pageInfo.value), 
+      pageInfo.sort,
+      (pageInfo.page-1) * this.item_per_page, 
+      this.item_per_page).subscribe(
+      data=>{this.__sessionContentHandler(data);}
+    );
   }
 
 
-  __listUpdateContentsByUrl(sessionid:string, url:string){
-    let segments = url.split('/');
-    if(segments.length === 2){
-      // 
-      this.contentService.quickQuery(sessionid, 'releaseDate', 0, this.item_per_page).subscribe(data=>{this.__sessionContentHandler(data);});
-    }else if(segments.length === 3){
-      // /list/view
-      this.contentService.quickQuery(sessionid, segments[2], 0, this.item_per_page).subscribe(data=>{this.__sessionContentHandler(data);});
-    }else if(segments.length === 4){
-      // /list/view/10
-      this.contentService.quickQuery(sessionid, segments[2], (parseInt(segments[3])-1) * this.item_per_page, this.item_per_page).subscribe(data=>{this.__sessionContentHandler(data);});
-    }
+  UpdateContentsByList(sessionid:string, pageInfo:URLEncodedPage){
+    this.contentService.quickQuery(
+      sessionid, 
+      pageInfo.sort, 
+      (pageInfo.page - 1) * this.item_per_page, 
+      this.item_per_page
+      ).subscribe(data=>{this.__sessionContentHandler(data);
+    });
   }
+
+  
   ngOnDestroy(){
     this.routerEvent.unsubscribe();
   }
-
 
   // UI
   isDisplayPanel: string = "none";

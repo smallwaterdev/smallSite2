@@ -16,6 +16,7 @@ export class ContentPageNavComponent implements OnInit {
   number_shown_pages: number = PaginationLength;
   selected_page : number = 1;
   random_page: number = 1;
+  pageInfo: URLEncodedPage;
   url_prefix: string = "/list/releaseDate/";
 
   @Input("item-per-page") item_per_page;
@@ -27,36 +28,25 @@ export class ContentPageNavComponent implements OnInit {
     private urlAnalyzer: UrlAnalysisService
   ) { }
 
-  routerEvent: Subscription;
   ngOnInit() {
-    // set according to url
-    this.routerEvent = this.router.events.subscribe((evt)=>{
-      if(!(evt instanceof NavigationEnd)){
-        return;
-      }
-      this.url2Meta(evt.url);
-    });
-    this.url2Meta(this.router.url);
-  }
-  ngOnDestroy(){
-    this.routerEvent.unsubscribe();
+    
   }
 
-  url2Meta(url: string){
+  url2Meta(pageInfo: URLEncodedPage){
+    this.pageInfo = pageInfo;
     // obtain the url_prefix, selected_page and total_item_number
-    let pageInfo: URLEncodedPage = this.urlAnalyzer.urlAnalysis(url);
-    if(pageInfo === null){
+    if(this.pageInfo === null){
       return;
     }
-    switch(pageInfo.type){
+    switch(this.pageInfo.type){
       // list, search, meta, content category, pornstar, director, studio, waterlater
       case "list":{
-        this.metaService.queryMeta(url, "meta", "total").subscribe(data=>{
-          if(data.sessionid === this.router.url && data.meta){
+        this.metaService.queryMeta(this.router.url, "meta", "total").subscribe(data=>{
+          if(this.router.url === data.sessionid && data.meta){
             // set result
             this.total_num_items = data.meta['counter'];
-            this.url_prefix = `/list/${pageInfo.sort}/`;
-            this.selected_page = pageInfo.page;
+            this.url_prefix = `/list/${this.pageInfo.sort}/`;
+            this.selected_page = this.pageInfo.page;
             this.total_page = Math.ceil(this.total_num_items / this.item_per_page);
             this.generatePageArray();
           }
@@ -64,8 +54,8 @@ export class ContentPageNavComponent implements OnInit {
       };break;
       case "search":{
         this.total_num_items = 100;
-        this.url_prefix = `/search/${pageInfo.value}/`;
-        this.selected_page = pageInfo.page;
+        this.url_prefix = `/search/${this.pageInfo.value}/`;
+        this.selected_page = this.pageInfo.page;
         this.total_page = Math.ceil(this.total_num_items / this.item_per_page);
         this.generatePageArray();
       };break;
@@ -73,16 +63,16 @@ export class ContentPageNavComponent implements OnInit {
         const name_converter = {};
         name_converter['category'] = 'genre';
         name_converter['pornstar'] = 'starname';
-        let value = name_converter[pageInfo.value];
+        let value = name_converter[this.pageInfo.value];
         if(value === undefined){
-          value = pageInfo.value;
+          value = this.pageInfo.value;
         }
         this.metaService.queryMeta(this.router.url, 'meta', value).subscribe(data=>{
           if(data.sessionid === this.router.url && data.meta){
             // 
             this.total_num_items = data.meta['counter'];
-            this.url_prefix = `/${pageInfo.type}/${pageInfo.value}/`;
-            this.selected_page = pageInfo.page;
+            this.url_prefix = `/${this.pageInfo.type}/${this.pageInfo.value}/`;
+            this.selected_page = this.pageInfo.page;
             this.total_page = Math.ceil(this.total_num_items / this.item_per_page);
             this.generatePageArray();
           }
@@ -95,16 +85,16 @@ export class ContentPageNavComponent implements OnInit {
         const name_converter = {};
         name_converter['category'] = 'genre';
         name_converter['pornstar'] = 'starname';
-        let field = name_converter[pageInfo.type];
+        let field = name_converter[this.pageInfo.type];
         if(field === undefined){
-          field = pageInfo.type;
+          field = this.pageInfo.type;
         }
-        this.metaService.queryMeta(url, field, decodeURIComponent(pageInfo.value)).subscribe(data=>{
+        this.metaService.queryMeta(this.router.url, field, decodeURIComponent(this.pageInfo.value)).subscribe(data=>{
           if(data.sessionid === this.router.url){
             //
             this.total_num_items = data.meta['counter'];
-            this.url_prefix = `/${pageInfo.type}/${pageInfo.value}/${pageInfo.sort}/`;
-            this.selected_page = pageInfo.page;
+            this.url_prefix = `/${this.pageInfo.type}/${this.pageInfo.value}/${this.pageInfo.sort}/`;
+            this.selected_page = this.pageInfo.page;
             this.total_page = Math.ceil(this.total_num_items / this.item_per_page);
             this.generatePageArray();
           }
