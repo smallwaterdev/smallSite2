@@ -1,15 +1,18 @@
 <div id="top-nav">
-    <a mat-button routerLink="/"><mat-icon>home</mat-icon> Javferry</a>
-    <a fxHide fxShow.gt-sm mat-button routerLink="/meta/category">Categories</a>
-    <a fxHide fxShow.gt-sm mat-button routerLink="/meta/pornstar">Pornstars</a>
-    <a fxHide fxShow.gt-sm mat-button routerLink="/meta/studio">Studios</a>
-    <a fxHide fxShow.gt-sm mat-button routerLink="/meta/director">Directors</a> 
-    <a fxHide fxShow.gt-sm mat-button routerLink="/watchlater">Watch later</a>       
+    <a class="nav-btn" mat-button routerLink="/"><mat-icon>home</mat-icon> Javferry</a>
+    <a class="nav-btn" mat-button routerLink="/meta/category">Categories</a>
+    <a class="nav-btn" mat-button routerLink="/meta/pornstar">Pornstars</a>
+    <a class="nav-btn" mat-button routerLink="/meta/studio">Studios</a>
+    <a class="nav-btn" mat-button routerLink="/meta/director">Directors</a> 
+    <a class="nav-btn" mat-button routerLink="/watchlater">Watch later</a>       
     <span class="toolbar-filler"></span>
-    <div class="search-input" fxHide fxShow.gt-xs>
+    <div class="search-input">
         <input name="search" size="30" placeholder=" Search Javferry" [(ngModel)]="searchValue" (keyup.enter)="search()">
     </div>
-    <button mat-button fxShow fxHide.gt-sm (click)="sidenavToggle()"><mat-icon>menu</mat-icon></button> 
+    <span *ngIf="!isReadyUser" class="user-button"></span>
+    <a *ngIf="isReadyUser && username === null" class="nav-btn user-button" mat-button routerLink="/login"><i class="fas fa-user"></i> Login/Sign up</a>
+    <a *ngIf="isReadyUser && username !== null" class="nav-btn user-button" mat-button routerLink="/user">{{username}}</a>       
+    <button class="menu-btn" mat-button (click)="sidenavToggle()"><mat-icon>menu</mat-icon></button> 
 </div>
 <div id="hidden-block" [ngStyle]="{'display': sideNavStyle}">
     <a mat-button routerLink="/meta/category">Categories</a>
@@ -17,11 +20,13 @@
     <a mat-button routerLink="/meta/studio">Studios</a>
     <a mat-button routerLink="/meta/director">Directors</a>
     <a mat-button routerLink="/watchlater">Watch later</a>
-    <div class="search-input" fxShow fxHide.gt-xs>
+    <div class="search-input">
         <form>
         <input name="search" width="100%" placeholder=" Search Javferry" [(ngModel)]="searchValue" (keyup.enter)="search()">
         <input type="submit" hidden>
         </form>
     </div>
+    <a *ngIf="isReadyUser && username === null" mat-button routerLink="/login"><i class="fas fa-user"></i> Login/Sign up</a>
+    <a *ngIf="isReadyUser && username !== null" mat-button routerLink="/user">{{username}}</a>       
 </div>
 <router-outlet></router-outlet>

@@ -64,7 +64,7 @@ export class ContentService {
         let sort_ = {};
         sort_[sort] = -1;
         let option_ = {skip: skip, limit: limit, sort: sort_};
-        this.http.post<Content[]>(queryUrl, {option: option_}).subscribe(httpObserver);
+        this.http.post<Content[]>(queryUrl, {option: option_}, {withCredentials: true}).subscribe(httpObserver);
       });
       return quickQueryContent;
     }
@@ -85,7 +85,7 @@ export class ContentService {
         let sort_ = {};
         sort_[sort] = -1;
         let option_ = {skip: skip, limit: limit, sort: sort_};
-        this.http.post<Content[]>(queryUrl, {condition: condition_, option: option_}).subscribe(httpObserver);
+        this.http.post<Content[]>(queryUrl, {condition: condition_, option: option_}, {withCredentials: true}).subscribe(httpObserver);
       });
       return queryContent;
     }
@@ -118,7 +118,7 @@ export class ContentService {
         /////// query now ///////////
         let queryUrl = `${this.smallData_user_addr}/content/query`;
         let condition_ = {"_id": id};
-        this.http.post<Content[]>(queryUrl, {condition: condition_}).subscribe(httpObserver);
+        this.http.post<Content[]>(queryUrl, {condition: condition_}, {withCredentials: true}).subscribe(httpObserver);
         
       });
       return queryByIdHttp;
@@ -131,7 +131,7 @@ export class ContentService {
       /////// query now ///////////
       let queryUrl = `${this.smallData_user_addr}/content/recommend/${id}`;
       let option_ = {limit: num};
-      this.http.post<Content[]>(queryUrl, option_).subscribe(httpObserver);
+      this.http.post<Content[]>(queryUrl, option_, {withCredentials: true}).subscribe(httpObserver);
     });
     return recommendContent;
   }
@@ -141,7 +141,7 @@ export class ContentService {
       const httpObserver = this.__generateSessionContentsHandler(sessionid, false, observable);
       /////// query now ///////////
       let queryUrl = `${this.smallData_user_addr}/content/search`;
-      this.http.post<Content[]>(queryUrl, {title: title, skip: from, limit: limit}).subscribe(httpObserver);
+      this.http.post<Content[]>(queryUrl, {title: title, skip: from, limit: limit}, {withCredentials: true}).subscribe(httpObserver);
     });
     return searchContents;
   }

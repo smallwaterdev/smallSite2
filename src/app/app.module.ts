@@ -31,6 +31,8 @@ import { ContentInfoComponent } from './content-info/content-info.component';
 import { ContentImageComponent } from './content-image/content-image.component';
 import { ContentPageNavComponent } from './content-page-nav/content-page-nav.component';
 import { ContentPageSortComponent } from './content-page-sort/content-page-sort.component';
+import { LoginPageComponent } from './login-page/login-page.component';
+import { UserPageComponent } from './user-page/user-page.component';
 export function metaListMatcher(url: UrlSegment[]) {
  
   if(
@@ -65,6 +67,8 @@ export function watchLaterMatcher(url: UrlSegment[]){
 }
 const routes: Route[]=[
   { path: "content/:id", component: ContentComponent},
+  { path: "login", component: LoginPageComponent},
+  { path: "user", component: UserPageComponent},
   { matcher: watchLaterMatcher, component: WatchLaterListComponent},
   { matcher: metaListMatcher, component: MetaListComponent},
   { matcher: contentListMatcher , component: ContentListComponent},
@@ -86,7 +90,9 @@ const routes: Route[]=[
     ContentInfoComponent,
     ContentImageComponent,
     ContentPageNavComponent,
-    ContentPageSortComponent
+    ContentPageSortComponent,
+    LoginPageComponent,
+    UserPageComponent
     
   ],
   imports: [

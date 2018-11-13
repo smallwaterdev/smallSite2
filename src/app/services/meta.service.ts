@@ -40,7 +40,7 @@ export class MetaService {
     const queryMeta = new Observable<SessionMeta>(observable=>{
       const queryUrl = `${this.smallData_user_addr}/meta/query`;
       const body = {condition:{ field: field, name: value }};
-      this.http.post<Object>(queryUrl, body).subscribe(this.__handlerSessionMetaGenerator(sessionId, observable));
+      this.http.post<Object>(queryUrl, body, {withCredentials: true}).subscribe(this.__handlerSessionMetaGenerator(sessionId, observable));
       return {unsubscribe(){}};
     });
     return queryMeta;
@@ -69,7 +69,7 @@ export class MetaService {
         condition:{ field: field},
         option:{ skip: from, limit: limit, sort:{name:1}}
       };
-      this.http.post<Object>(queryUrl, body).subscribe(this.__handlerSessionMetasGenerator(sessionId, observable));
+      this.http.post<Object>(queryUrl, body, {withCredentials: true}).subscribe(this.__handlerSessionMetasGenerator(sessionId, observable));
       return {unsubscribe(){}};
     });
     return queryMetas;

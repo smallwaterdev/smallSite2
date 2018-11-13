@@ -109,5 +109,8 @@ export class LocalCacheService {
     console.log(`Cache ${sessionid}`);
     this.contentsQueue.push(sessionid, contents);
   }
+  clearAll(){
+    this.contentsQueue = new ContentListQueue(20);
+  }
 }
 
