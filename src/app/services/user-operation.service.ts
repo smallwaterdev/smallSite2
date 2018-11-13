@@ -88,7 +88,7 @@ export class UserOperationService {
       };
       /////// login now ///////////
       let loginUrl = `${this.smallData_user_addr}/user/login`;
-      let value = {id: id, password: password};
+      let value = {username: id, password: password};
       this.http.post(loginUrl, value, {withCredentials: true }).subscribe(httpObserver);
       //
     });
